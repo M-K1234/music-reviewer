@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAccount;
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_account;
     private String creationDate;
     private int reviewsCreated;
     private int User_idUser;
