@@ -3,6 +3,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,11 +14,11 @@ import java.time.LocalDateTime;
 public class ReviewDTO {
 
     
-    private int idReviews;
+    private int id_review;
     private String title;
     private String author;
-    private String creationDate;
-    private String imgURL;
+    private Date creation_date;
+    private String imgurl;
     private String text;
     private int score;
     
