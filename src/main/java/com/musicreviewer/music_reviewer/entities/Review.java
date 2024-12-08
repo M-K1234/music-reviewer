@@ -49,7 +49,7 @@ public class Review {
     @JoinColumn(name = "account_user_id_user")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "account_login_id_login")
     private Login login;
 
