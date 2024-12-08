@@ -32,7 +32,7 @@ public class UserDTO {
     // Constructor til at oprette fra User entitet
     public UserDTO(User user) {
         if (user != null) {
-            this.idUsers = user.getIdUsers();
+            this.idUsers = user.getId_user();
             this.firstname = user.getFirstname();
             this.lastname = user.getLastname();
             this.username = user.getUsername();
@@ -44,7 +44,7 @@ public class UserDTO {
     // Konverter til User-entitet
     public User toEntity() {
         User user = new User();
-        user.setIdUsers(this.idUsers);
+        user.setId_user(this.idUsers);
         user.setFirstname(this.firstname);
         user.setLastname(this.lastname);
         user.setUsername(this.username);
