@@ -10,7 +10,7 @@ public class Login {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idlogin;
+    private int id_login;
     private String email;
     private String password;
     

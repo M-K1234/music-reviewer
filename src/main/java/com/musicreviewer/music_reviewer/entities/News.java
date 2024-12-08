@@ -10,12 +10,12 @@ import jakarta.persistence.Lob;
 public class News {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idNews;
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_news;
     private String title;
     private String author;
-    private String creationDate;
-    private String imgURL;
+    private String creation_date;
+    private String imgurl;
     @Lob
     private String text;
     

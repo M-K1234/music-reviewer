@@ -36,8 +36,9 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<ReviewDTO> getAllReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+        return mapToDTOList(reviews);
     }
 
     public Optional<Review> getReviewById(int reviewId) {
@@ -53,7 +54,8 @@ public class ReviewService {
         review.setAuthor(updatedReview.getAuthor());
         review.setScore(updatedReview.getScore()); 
         review.setTitle(updatedReview.getTitle()); 
-        review.setImgURL(updatedReview.getImgURL());      
+        review.setImgurl(updatedReview.getImgurl());   
+        review.setCreation_date(updatedReview.getCreation_date());   
         return reviewRepository.save(review);
         } else
         {

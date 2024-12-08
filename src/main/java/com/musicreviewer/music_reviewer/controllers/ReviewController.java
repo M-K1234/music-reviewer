@@ -24,7 +24,7 @@ public class ReviewController {
 
     @GetMapping("/all")
     public List<ReviewDTO> getAll() {
-        List<ReviewDTO> reviewDto = reviewService.mapToDTOList(reviewService.getAllReviews());
+        List<ReviewDTO> reviewDto = reviewService.getAllReviews();
         return reviewDto;
     }
     

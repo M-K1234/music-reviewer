@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_user;
     private String firstname;
     private String lastname;
     private String username;
