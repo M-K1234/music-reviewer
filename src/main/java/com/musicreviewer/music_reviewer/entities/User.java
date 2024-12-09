@@ -32,15 +32,9 @@ public class User {
     @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "creationDate", nullable = false)
-    private Date creationDate;
-
-    @Column(name = "imgURL", length = 255)
-    private String imgURL;
 
     // Forbindelse til reviews
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
+    // @OneToMany(mappedBy = "user")
+    // private List<Review> review;
 
 }

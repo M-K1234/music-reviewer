@@ -11,8 +11,8 @@ public class Account {
     @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_account;
-    private String creationDate;
-    private int reviewsCreated;
-    private int User_idUser;
-    private int login_idLogin;
+    private String creation_date;
+    private int reviews_created;
+    private int user_id_user;
+    private int login_id_login;
 }

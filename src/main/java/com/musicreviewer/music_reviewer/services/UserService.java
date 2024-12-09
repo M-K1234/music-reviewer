@@ -47,8 +47,6 @@ public class UserService {
             user.setFirstname(userDTO.getFirstname());
             user.setLastname(userDTO.getLastname());
             user.setUsername(userDTO.getUsername());
-            user.setCreationDate(userDTO.getCreationDate());
-            user.setImgURL(userDTO.getImgURL());
 
             User updatedUser = userRepository.save(user);
             return new UserDTO(updatedUser);
