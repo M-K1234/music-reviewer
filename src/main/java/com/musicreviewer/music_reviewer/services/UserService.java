@@ -4,20 +4,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.musicreviewer.music_reviewer.dtos.UserDTO;
 import com.musicreviewer.music_reviewer.entities.User;
 import com.musicreviewer.music_reviewer.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    // private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     // Hent alle brugere
     public List<UserDTO> getAllUsers() {
@@ -25,6 +26,17 @@ public class UserService {
         return users.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
+    // // Register a new user
+    // public boolean registerUser(User user) {
+    //     Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+    //     if (existingUser.isPresent()) {
+    //         return false; // Username already exists
+    //     }
+    //     // Hash the password
+    //     user.setPassword(passwordEncoder.encode(user.getPassword()));
+    //     userRepository.save(user);
+    //     return true;
+    // }
     // Hent en specifik bruger ved ID
     public UserDTO getUserById(int id) {
         Optional<User> user = userRepository.findById(id);

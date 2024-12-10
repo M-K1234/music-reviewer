@@ -1,4 +1,4 @@
-package com.musicreviewer.music_reviewer.repositories;
+package com.musicreviewer.music_reviewer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

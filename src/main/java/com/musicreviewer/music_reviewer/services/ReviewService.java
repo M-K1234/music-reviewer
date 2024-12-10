@@ -1,9 +1,9 @@
 package com.musicreviewer.music_reviewer.services;
 
+import com.musicreviewer.music_reviewer.ReviewRepository;
 import com.musicreviewer.music_reviewer.config.ModelMapperConfig;
 import com.musicreviewer.music_reviewer.dtos.ReviewDTO;
 import com.musicreviewer.music_reviewer.entities.Review;
-import com.musicreviewer.music_reviewer.repositories.ReviewRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

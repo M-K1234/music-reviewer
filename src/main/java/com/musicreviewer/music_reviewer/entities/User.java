@@ -1,6 +1,5 @@
 package com.musicreviewer.music_reviewer.entities;
 
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -9,21 +8,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@Table(name = "user")
+
+@Data
 @Entity
 public class User {
 
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idUser;
+
     private String firstname;
 
     @Column(name = "lastname", nullable = false, length = 50)
@@ -32,9 +27,9 @@ public class User {
     @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
 
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
 
-    // Forbindelse til reviews
-    // @OneToMany(mappedBy = "user")
-    // private List<Review> review;
-
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 }

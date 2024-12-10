@@ -3,8 +3,8 @@ package com.musicreviewer.music_reviewer.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.musicreviewer.music_reviewer.ReviewRepository;
 import com.musicreviewer.music_reviewer.dtos.ReviewDTO;
-import com.musicreviewer.music_reviewer.repositories.ReviewRepository;
 import com.musicreviewer.music_reviewer.services.ReviewService;
 
 import lombok.AllArgsConstructor;
