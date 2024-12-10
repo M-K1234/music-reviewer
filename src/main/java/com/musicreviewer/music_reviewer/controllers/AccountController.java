@@ -27,10 +27,10 @@ public class AccountController {
 
     // Create: Opret en ny Account
     @PostMapping("/create")
-    public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO accountDTO) {
-        Account account = accountService.createAccount(accountDTO);
-        int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
-        AccountDTO responseDTO = new AccountDTO(account, reviewCount);
+    public ResponseEntity<AccountDTO> createAccount(@RequestBody Account account) {
+        Account createdAccount = accountService.createAccount(account);
+        int reviewCount = createdAccount.getReviews() != null ? createdAccount.getReviews().size() : 0;
+        AccountDTO responseDTO = new AccountDTO(createdAccount, reviewCount);
         return ResponseEntity.ok(responseDTO);
     }
 

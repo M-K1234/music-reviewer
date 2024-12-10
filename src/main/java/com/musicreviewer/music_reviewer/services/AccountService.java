@@ -17,12 +17,7 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     // Opret en ny Account
-    public Account createAccount(AccountDTO accountDTO) {
-        Account account = new Account();
-        account.setCreation_date(accountDTO.getCreation_date());
-        account.setReviews_created(accountDTO.getReviews_created());
-        account.setUser_id_user(accountDTO.getUser_id_user());
-        account.setLogin_id_login(accountDTO.getLogin_id_login());
+    public Account createAccount(Account account) {
         return accountRepository.save(account);
     }
 
