@@ -66,6 +66,17 @@ public class ReviewService {
                 
     }
 
+    public ReviewDTO addReview(Review newReview) {
+
+        reviewRepository.save(newReview);
+        ReviewDTO reviewDTO = mapToDTO(newReview);
+        return reviewDTO;
+       
+        
+        
+                
+    }
+
     public void deleteReview(int reviewId) {
         if (reviewRepository.existsById(reviewId)) 
         {

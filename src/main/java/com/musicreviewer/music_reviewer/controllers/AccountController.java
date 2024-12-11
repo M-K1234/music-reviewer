@@ -53,7 +53,7 @@ public class AccountController {
         }
     }
 
-    // Update: Opdater en eksisterende Account
+   // Update: Opdater en eksisterende Account
     @PutMapping("/update/{id}")
     public ResponseEntity<AccountDTO> updateAccount(@PathVariable int id, @RequestBody AccountDTO accountDTO) {
         Optional<Account> accountOptional = accountService.getAccountById(id);
