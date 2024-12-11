@@ -28,6 +28,11 @@ public class ReviewController {
         List<ReviewDTO> reviewDto = reviewService.getAllReviews();
         return reviewDto;
     }
+    @GetMapping("/{id}")
+    public ReviewDTO get(@PathVariable int id) {
+        ReviewDTO reviewDto = reviewService.getReviewById(id);
+        return reviewDto;
+    }
     
 
 }

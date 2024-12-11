@@ -41,8 +41,9 @@ public class ReviewService {
         return mapToDTOList(reviews);
     }
 
-    public Optional<Review> getReviewById(int reviewId) {
-        return reviewRepository.findById(reviewId);
+    public ReviewDTO getReviewById(int reviewId) {
+        Review review = reviewRepository.findById(reviewId).get();
+        return mapToDTO(review);
     }
 
     public Review updateReview(int reviewId, Review updatedReview) {
