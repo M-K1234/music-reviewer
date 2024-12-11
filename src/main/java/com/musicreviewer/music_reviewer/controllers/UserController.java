@@ -1,103 +1,103 @@
-package com.musicreviewer.music_reviewer.controllers;
+// package com.musicreviewer.music_reviewer.controllers;
 
-import java.util.List;
-import java.util.Optional;
+// import java.util.List;
+// import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.PathVariable;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.PutMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-import com.musicreviewer.music_reviewer.dtos.UserDTO;
-import com.musicreviewer.music_reviewer.entities.User;
-import com.musicreviewer.music_reviewer.repositories.UserRepository;
-import com.musicreviewer.music_reviewer.services.UserService;
+// import com.musicreviewer.music_reviewer.dtos.UserDTO;
+// import com.musicreviewer.music_reviewer.entities.User;
+// import com.musicreviewer.music_reviewer.repositories.UserRepository;
+// import com.musicreviewer.music_reviewer.services.UserService;
 
-import lombok.RequiredArgsConstructor;
+// import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequestMapping("/api/users")
-@RequiredArgsConstructor
-public class UserController {
+// @RestController
+// @RequestMapping("/api/users")
+// @RequiredArgsConstructor
+// public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
+//     private final UserRepository userRepository;
+//     private final UserService userService;
 
-    // GET: Hent alle brugere
-    @GetMapping("/all")
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(UserDTO::new).toList();
-    }
+//     // GET: Hent alle brugere
+//     @GetMapping("/all")
+//     public List<UserDTO> getAllUsers() {
+//         List<User> users = userRepository.findAll();
+//         return users.stream().map(UserDTO::new).toList();
+//     }
 
-    // GET: Hent en specifik bruger efter ID
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable int id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(value -> ResponseEntity.ok(new UserDTO(value)))
-                   .orElse(ResponseEntity.notFound().build());
-    }
+//     // GET: Hent en specifik bruger efter ID
+//     @GetMapping("/{id}")
+//     public ResponseEntity<UserDTO> getUserById(@PathVariable int id) {
+//         Optional<User> user = userRepository.findById(id);
+//         return user.map(value -> ResponseEntity.ok(new UserDTO(value)))
+//                    .orElse(ResponseEntity.notFound().build());
+//     }
 
-    // POST: Opret en ny bruger
-    @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        User user = userDTO.toEntity();
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(new UserDTO(savedUser));
-    }
+//     // POST: Opret en ny bruger
+//     @PostMapping("/create")
+//     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+//         User user = userDTO.toEntity();
+//         User savedUser = userRepository.save(user);
+//         return ResponseEntity.ok(new UserDTO(savedUser));
+//     }
 
-    // // Signup Endpoint
-    // @PostMapping("/signup")
-    // public ResponseEntity<String> signup(@RequestBody User user) {
-    //     boolean isRegistered = userService.registerUser(user);
-    //     if (isRegistered) {
-    //         return ResponseEntity.ok("User registered successfully!");
-    //     } else {
-    //         return ResponseEntity.status(409).body("Username already exists!");
-    //     }
-    // }
-    // @PostMapping("/signup")
-    // public ResponseEntity<User> signup(@RequestBody User user) {
-    //     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-    //         return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-    //     }
-    //     // Encrypt the password before saving
-    //     user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-    //     User savedUser = userRepository.save(user);
-    //     return ResponseEntity.ok(savedUser);
-    // }
+//     // // Signup Endpoint
+//     // @PostMapping("/signup")
+//     // public ResponseEntity<String> signup(@RequestBody User user) {
+//     //     boolean isRegistered = userService.registerUser(user);
+//     //     if (isRegistered) {
+//     //         return ResponseEntity.ok("User registered successfully!");
+//     //     } else {
+//     //         return ResponseEntity.status(409).body("Username already exists!");
+//     //     }
+//     // }
+//     // @PostMapping("/signup")
+//     // public ResponseEntity<User> signup(@RequestBody User user) {
+//     //     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+//     //         return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+//     //     }
+//     //     // Encrypt the password before saving
+//     //     user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+//     //     User savedUser = userRepository.save(user);
+//     //     return ResponseEntity.ok(savedUser);
+//     // }
 
-    // PUT: Opdater en eksisterende bruger
-    @PutMapping("/update/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            User userToUpdate = existingUser.get();
-            userToUpdate.setFirstname(userDTO.getFirstname());
-            userToUpdate.setLastname(userDTO.getLastname());
-            userToUpdate.setUsername(userDTO.getUsername());
-            User updatedUser = userRepository.save(userToUpdate);
-            return ResponseEntity.ok(new UserDTO(updatedUser));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//     // PUT: Opdater en eksisterende bruger
+//     @PutMapping("/update/{id}")
+//     public ResponseEntity<UserDTO> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+//         Optional<User> existingUser = userRepository.findById(id);
+//         if (existingUser.isPresent()) {
+//             User userToUpdate = existingUser.get();
+//             userToUpdate.setFirstname(userDTO.getFirstname());
+//             userToUpdate.setLastname(userDTO.getLastname());
+//             userToUpdate.setUsername(userDTO.getUsername());
+//             User updatedUser = userRepository.save(userToUpdate);
+//             return ResponseEntity.ok(new UserDTO(updatedUser));
+//         } else {
+//             return ResponseEntity.notFound().build();
+//         }
+//     }
 
-    // DELETE: Slet en bruger efter ID
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-}
+//     // DELETE: Slet en bruger efter ID
+//     @DeleteMapping("/delete/{id}")
+//     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+//         if (userRepository.existsById(id)) {
+//             userRepository.deleteById(id);
+//             return ResponseEntity.noContent().build();
+//         } else {
+//             return ResponseEntity.notFound().build();
+//         }
+//     }
+// }

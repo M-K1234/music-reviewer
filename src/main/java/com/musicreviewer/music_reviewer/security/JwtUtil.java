@@ -30,6 +30,10 @@ public class JwtUtil {
         return getClaims(token).getSubject();
     }
 
+    public Date getTokenExpiration(String token) {
+        return getClaims(token).getExpiration();
+    }    
+
     public boolean validateToken(String token, UserDetails userDetails) {
         return userDetails.getUsername().equals(extractUsername(token)) && !isTokenExpired(token);
     }
