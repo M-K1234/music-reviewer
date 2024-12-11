@@ -23,17 +23,9 @@ public class User {
 
     private String fullName;
     
-    @Column(name = "email", unique = true, nullable = false, length = 100)
-    private String email;
+    @Column(name = "username", unique = true, nullable = false, length = 100)
+    private String username;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Login login;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne
     private Account account;
-
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
-
 }
-

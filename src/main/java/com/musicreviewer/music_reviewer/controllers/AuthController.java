@@ -14,9 +14,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
         try {
-            Map<String, Object> tokenResponse = authService.authenticateAndGenerateTokenResponse(username, password);
+            Map<String, Object> tokenResponse = authService.authenticateAndGenerateTokenResponse(email, password);
             return ResponseEntity.ok(tokenResponse);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));

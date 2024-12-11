@@ -27,42 +27,42 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
-    public Map<String, Object> authenticateAndGenerateTokenResponse(String username, String password) {
-        Login login = loginRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
+    public Map<String, Object> authenticateAndGenerateTokenResponse(String email, String password) {
+        Login login = loginRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
     
         if (!passwordEncoder.matches(password, login.getPassword())) {
-            throw new IllegalArgumentException("Invalid username or password.");
+            throw new IllegalArgumentException("Invalid email or password.");
         }
     
-        return generateTokenResponse(username);
+        return generateTokenResponse(email);
     }
 
     public void register(String fullName, String email, String username, String password) {
         // Check if username is already taken
-        if (loginRepository.findByUsername(username).isPresent()) {
-            throw new IllegalArgumentException("Username already exists.");
-        }
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (loginRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already exists.");
+        }
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("Username already exists.");
         }
 
         // Create and save Login
         Login login = new Login();
-        login.setUsername(username);
+        login.setEmail(email);
         login.setPassword(passwordEncoder.encode(password));
         loginRepository.save(login);
 
         // Create and save User
         User user = new User();
         user.setFullName(fullName);
-        user.setEmail(email);
-        user.setLogin(login);
+        user.setUsername(username);
         userRepository.save(user);
 
         // Create and save Account
         Account account = new Account();
         account.setUser(user);
+        account.setLogin(login);
         account.setCreationDate(LocalDateTime.now());
         account.setReviewsCreated(0);
         accountRepository.save(account);

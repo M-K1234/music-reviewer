@@ -18,13 +18,11 @@ public class Login {
     private int id;
 
     @Column(unique = true, nullable = false, length = 50)
-    private String username;
+    private String email;
 
     @Column(nullable = false, length = 100)
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private Account account;
 }
-

@@ -7,13 +7,13 @@ import lombok.Data;
 public class UserDTO {
     private int id;
     private String fullName;
-    private String email;
+    private String username;
 
     // Constructor to map from User entity
     public UserDTO(User user) {
         this.id = user.getId(); // Correct method name
         this.fullName = user.getFullName();
-        this.email = user.getEmail();
+        this.username = user.getUsername();
     }
 
     // Method to map back to User entity
@@ -21,7 +21,7 @@ public class UserDTO {
         User user = new User();
         user.setId(this.id); // Correct method name
         user.setFullName(this.fullName); // Correct method name
-        user.setEmail(this.email);
+        user.setUsername(this.username); 
         return user;
     }
 }

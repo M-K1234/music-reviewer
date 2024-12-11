@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.musicreviewer.music_reviewer.entities.Login;
 
 public interface LoginRepository extends JpaRepository<Login, Integer> {
-    Optional<Login> findByUsername(String username); // Find login via brugernavn
+    Optional<Login> findByEmail(String email); // Find login via brugernavn
 }

@@ -42,16 +42,15 @@ public class Review {
     private int score;
     
     @ManyToOne
-    @JoinColumn(name = "account_id_account")
+    // @JoinColumn(name = "account_id_account")
     private Account account;
     
-    @ManyToOne
-    @JoinColumn(name = "account_user_id_user")
-    private User user;
+    // @ManyToOne
+    // @JoinColumn(name = "account_user_id_user")
+    // private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "account_login_id_login")
-    private Login login;
-
+    // @ManyToOne
+    // @JoinColumn(name = "account_login_id_login")
+    // private Login login;
 }
 
