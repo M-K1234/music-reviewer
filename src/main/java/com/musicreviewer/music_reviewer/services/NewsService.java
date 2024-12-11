@@ -1,7 +1,6 @@
 package com.musicreviewer.music_reviewer.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -11,9 +10,9 @@ import com.musicreviewer.music_reviewer.dtos.NewsDTO;
 import com.musicreviewer.music_reviewer.entities.News;
 import com.musicreviewer.music_reviewer.repositories.NewsRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class NewsService {
 

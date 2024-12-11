@@ -14,8 +14,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
-@Getter
-@Setter
 @Entity
 @Data
 public class Account {
@@ -38,6 +36,6 @@ public class Account {
     private Login login;
 
     @OneToMany
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @JoinColumn(referencedColumnName = "id")
     private List<Review> reviews;
 }

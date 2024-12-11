@@ -2,31 +2,30 @@ package com.musicreviewer.music_reviewer.entities;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Setter
-@Table(name = "review")
+@Data
 @Entity
+@AllArgsConstructor
 public class Review {
 
+    public Review(String title, String text) {
+        this.title = title;
+        this.text = text;
+    }
+    
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_review")
-    private int id_review;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private String title;
     private String author;

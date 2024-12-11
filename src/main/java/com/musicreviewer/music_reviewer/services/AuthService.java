@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.entities.Login;
@@ -37,7 +38,8 @@ public class AuthService {
     
         return generateTokenResponse(email);
     }
-
+    
+    @Transactional
     public void register(String fullName, String email, String username, String password) {
         // Check if username is already taken
         if (loginRepository.findByEmail(email).isPresent()) {
