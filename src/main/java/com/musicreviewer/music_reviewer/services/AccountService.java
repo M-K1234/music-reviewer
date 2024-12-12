@@ -22,15 +22,15 @@ public class AccountService {
     }
 
     // Hent alle Accounts med deres anmeldelsesantal
-    // public List<AccountDTO> getAllAccountsWithReviewCounts() {
-    //     List<Account> accounts = accountRepository.findAll();
-    //     return accounts.stream()
-    //             .map(account -> {
-    //                 int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
-    //                 return new AccountDTO(account, reviewCount);
-    //             })
-    //             .toList();
-    // }
+    public List<AccountDTO> getAllAccountsWithReviewCounts() {
+        List<Account> accounts = accountRepository.findAll();
+        return accounts.stream()
+                .map(account -> {
+                    int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
+                    return new AccountDTO(account, reviewCount);
+                })
+                .toList();
+    }
 
     // Hent en Account med anmeldelsesantal via ID
     public Optional<Account> getAccountById(int accountId) {
@@ -43,22 +43,20 @@ public class AccountService {
         Optional<Account> existingAccountOptional = accountRepository.findById(accountId);
         if (existingAccountOptional.isPresent()) {
             Account existingAccount = existingAccountOptional.get();
-    
+
             // Opdater kun tilladte felter
             existingAccount.setCreationDate(updatedAccount.getCreationDate());
             existingAccount.setReviewsCreated(updatedAccount.getReviewsCreated());
             existingAccount.setUser(updatedAccount.getUser());
-            existingAccount.setLogin(updatedAccount.getLogin());
             existingAccount.setReviews(updatedAccount.getReviews());
-    
+            existingAccount.setLogin(updatedAccount.getLogin());
+
             // Gem ændringerne
             return accountRepository.save(existingAccount);
         } else {
             throw new IllegalArgumentException("Account with ID " + accountId + " not found.");
         }
     }
-    
-    
 
     // Slet en Account
     public void deleteAccount(int accountId) {
