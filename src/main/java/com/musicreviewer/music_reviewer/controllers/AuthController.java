@@ -3,6 +3,8 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
 import com.musicreviewer.music_reviewer.services.AuthService;
 import lombok.AllArgsConstructor;
 
@@ -23,20 +25,24 @@ public class AuthController {
         }
     }
 
-
-
     @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @RequestParam String fullName,
-            @RequestParam String email,
-            @RequestParam String username,
-            @RequestParam String password) {
-        try {
-            authService.register(fullName, email, username, password);
-            return ResponseEntity.ok("Registration successful");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
+        authService.register(dto.getFullName(), dto.getEmail(), dto.getUsername(), dto.getPassword());
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
+
+    // @PostMapping("/register")
+    // public ResponseEntity<String> register(
+    //         @RequestParam String fullName,
+    //         @RequestParam String email,
+    //         @RequestParam String username,
+    //         @RequestParam String password) {
+    //     try {
+    //         authService.register(fullName, email, username, password);
+    //         return ResponseEntity.ok("Registration successful");
+    //     } catch (IllegalArgumentException e) {
+    //         return ResponseEntity.badRequest().body(e.getMessage());
+    //     }
+    // }
 }
 
