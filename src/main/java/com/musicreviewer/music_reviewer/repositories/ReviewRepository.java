@@ -7,4 +7,3 @@ import com.musicreviewer.music_reviewer.entities.Review;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 }
-

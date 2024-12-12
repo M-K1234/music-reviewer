@@ -28,6 +28,4 @@ public class News {
     private String imgurl;
     @Lob
     private String text;
-    
-    
 }

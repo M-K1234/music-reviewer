@@ -1,41 +1,41 @@
-// package com.musicreviewer.music_reviewer.services;
+package com.musicreviewer.music_reviewer.services;
 
-// import java.util.List;
-// import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// import com.musicreviewer.music_reviewer.dtos.AccountDTO;
-// import com.musicreviewer.music_reviewer.entities.Account;
-// import com.musicreviewer.music_reviewer.repositories.AccountRepository;
+import com.musicreviewer.music_reviewer.dtos.AccountDTO;
+import com.musicreviewer.music_reviewer.entities.Account;
+import com.musicreviewer.music_reviewer.repositories.AccountRepository;
 
-// @Service
-// public class AccountService {
+@Service
+public class AccountService {
 
-//     @Autowired
-//     private AccountRepository accountRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
-//     // Opret en ny Account
-//     public Account createAccount(Account account) {
-//         return accountRepository.save(account);
-//     }
+    // Opret en ny Account
+    public Account createAccount(Account account) {
+        return accountRepository.save(account);
+    }
 
-//     // Hent alle Accounts med deres anmeldelsesantal
-//     public List<AccountDTO> getAllAccountsWithReviewCounts() {
-//         List<Account> accounts = accountRepository.findAll();
-//         return accounts.stream()
-//                 .map(account -> {
-//                     int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
-//                     return new AccountDTO(account, reviewCount);
-//                 })
-//                 .toList();
-//     }
+    // Hent alle Accounts med deres anmeldelsesantal
+    public List<AccountDTO> getAllAccountsWithReviewCounts() {
+        List<Account> accounts = accountRepository.findAll();
+        return accounts.stream()
+                .map(account -> {
+                    int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
+                    return new AccountDTO(account, reviewCount);
+                })
+                .toList();
+    }
 
-//     // Hent en Account med anmeldelsesantal via ID
-//     public Optional<Account> getAccountById(int accountId) {
-//         return accountRepository.findById(accountId);
-//     }
+    // Hent en Account med anmeldelsesantal via ID
+    public Optional<Account> getAccountById(int accountId) {
+        return accountRepository.findById(accountId);
+    }
 
     // Update en Account med et givet ID
     public Account updateAccount(int accountId, Account updatedAccount) {

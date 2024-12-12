@@ -2,10 +2,10 @@ package com.musicreviewer.music_reviewer.dtos;
 
 import java.time.LocalDateTime;
 
-// import com.musicreviewer.music_reviewer.entities.Account;
+import com.musicreviewer.music_reviewer.entities.Account;
 
-// import lombok.Getter;
-// import lombok.Setter;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
