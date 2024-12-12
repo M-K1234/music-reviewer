@@ -26,6 +26,6 @@ public class User {
     @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;
 
-    @OneToOne
-    private Account account;
+    // @OneToOne
+    // private Account account;
 }
