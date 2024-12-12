@@ -53,17 +53,17 @@ public class AccountController {
         }
     }
 
-// Update: Opdater en eksisterende Account med et givet ID
-@PutMapping("/update/{id}")
-public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account updatedAccount) {
-    Optional<Account> accountOptional = accountService.getAccountById(id);
-    if (accountOptional.isPresent()) {
-        Account savedAccount = accountService.updateAccount(id, updatedAccount);
-        return ResponseEntity.ok(savedAccount);
-    } else {
-        return ResponseEntity.notFound().build();
+    // Update: Opdater en eksisterende Account med et givet ID
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account updatedAccount) {
+        Optional<Account> accountOptional = accountService.getAccountById(id);
+        if (accountOptional.isPresent()) {
+            Account savedAccount = accountService.updateAccount(id, updatedAccount);
+            return ResponseEntity.ok(savedAccount);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
 
 
     // Delete: Slet en Account
