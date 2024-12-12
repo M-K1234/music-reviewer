@@ -35,6 +35,6 @@ public class Account {
     private Login login;
 
     @OneToMany
-    //@JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private List<Review> reviews;
 }
