@@ -53,19 +53,18 @@
 //         }
 //     }
 
-//     // Update: Opdater en eksisterende Account
-//     @PutMapping("/update/{id}")
-//     public ResponseEntity<AccountDTO> updateAccount(@PathVariable int id, @RequestBody AccountDTO accountDTO) {
-//         Optional<Account> accountOptional = accountService.getAccountById(id);
-//         if (accountOptional.isPresent()) {
-//             Account updatedAccount = accountService.updateAccount(id, accountDTO);
-//             int reviewCount = updatedAccount.getReviews() != null ? updatedAccount.getReviews().size() : 0;
-//             AccountDTO responseDTO = new AccountDTO(updatedAccount, reviewCount);
-//             return ResponseEntity.ok(responseDTO);
-//         } else {
-//             return ResponseEntity.notFound().build();
-//         }
-//     }
+    // Update: Opdater en eksisterende Account med et givet ID
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account updatedAccount) {
+        Optional<Account> accountOptional = accountService.getAccountById(id);
+        if (accountOptional.isPresent()) {
+            Account savedAccount = accountService.updateAccount(id, updatedAccount);
+            return ResponseEntity.ok(savedAccount);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 //     // Delete: Slet en Account
 //     @DeleteMapping("/delete/{id}")

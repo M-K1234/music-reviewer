@@ -37,23 +37,29 @@
 //         return accountRepository.findById(accountId);
 //     }
 
-//     // Opdater en eksisterende Account
-//     public Account updateAccount(int accountId, AccountDTO accountDTO) {
-//         Optional<Account> existingAccountOptional = accountRepository.findById(accountId);
-//         if (existingAccountOptional.isPresent()) {
-//             Account existingAccount = existingAccountOptional.get();
-//             existingAccount.setCreation_date(accountDTO.getCreation_date());
-//             existingAccount.setReviews_created(accountDTO.getReviews_created());
-//             existingAccount.setUser_id_user(accountDTO.getUser_id_user());
-//             existingAccount.setLogin_id_login(accountDTO.getLogin_id_login());
-//             return accountRepository.save(existingAccount);
-//         } else {
-//             throw new IllegalArgumentException("Account not found for update.");
-//         }
-//     }
+    // Update en Account med et givet ID
+    public Account updateAccount(int accountId, Account updatedAccount) {
+        // Find eksisterende Account i databasen via ID
+        Optional<Account> existingAccountOptional = accountRepository.findById(accountId);
+        if (existingAccountOptional.isPresent()) {
+            Account existingAccount = existingAccountOptional.get();
 
-//     // Slet en Account
-//     public void deleteAccount(int accountId) {
-//         accountRepository.deleteById(accountId);
-//     }
-// }
+            // Opdater kun tilladte felter
+            existingAccount.setCreationDate(updatedAccount.getCreationDate());
+            existingAccount.setReviewsCreated(updatedAccount.getReviewsCreated());
+            existingAccount.setUser(updatedAccount.getUser());
+            existingAccount.setReviews(updatedAccount.getReviews());
+            existingAccount.setLogin(updatedAccount.getLogin());
+
+            // Gem ændringerne
+            return accountRepository.save(existingAccount);
+        } else {
+            throw new IllegalArgumentException("Account with ID " + accountId + " not found.");
+        }
+    }
+
+    // Slet en Account
+    public void deleteAccount(int accountId) {
+        accountRepository.deleteById(accountId);
+    }
+}
