@@ -38,6 +38,12 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateToken() {
+        // If the JwtFilter runs and doesn't throw an exception, the token is valid
+        return ResponseEntity.ok(true);
+    }
+
     // @PostMapping("/register")
     // public ResponseEntity<String> register(
     //         @RequestParam String fullName,

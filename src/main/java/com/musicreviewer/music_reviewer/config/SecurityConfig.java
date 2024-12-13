@@ -46,6 +46,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
+                .requestMatchers("/api/reviews/create").authenticated() // Protect review endpoints
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
