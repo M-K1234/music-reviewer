@@ -18,14 +18,21 @@ import lombok.Data;
 @AllArgsConstructor
 public class Review {
 
-    public Review(String title, String text) {
-        this.title = title;
-        this.text = text;
-    }
+    public Review() {}
+
+     public Review(int id_review, String title, String author, Date creation_date, String imgurl, String text, int score ) {
+        this.id_review = id_review;
+         this.title = title;
+         this.author = author;
+         this.creation_date = creation_date;
+         this.imgurl = imgurl;
+         this.text = text;
+         this.score = score;
+     }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id_review;
 
     private String title;
     private String author;

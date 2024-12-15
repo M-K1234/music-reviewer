@@ -21,7 +21,7 @@ public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id_news;
     private String title;
     private String author;
     private String creation_date;

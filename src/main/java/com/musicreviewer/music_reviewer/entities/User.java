@@ -13,6 +13,15 @@ import lombok.Data;
 @Entity
 public class User {
 
+    // public User() {}
+
+    // public User(int id, String fullName,String username)
+    // {
+    //     this.id = id;
+    //     this.fullName = fullName;
+    //     this.username = username;
+    // }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
