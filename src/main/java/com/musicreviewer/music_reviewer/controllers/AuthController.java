@@ -4,6 +4,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.musicreviewer.music_reviewer.dtos.LoginDTO;
 import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
 import com.musicreviewer.music_reviewer.services.AuthService;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestBody LoginDTO login) {
+        String email = login.getEmail();
+        String password = login.getPassword();
         try {
             Map<String, Object> tokenResponse = authService.authenticateAndGenerateTokenResponse(email, password);
             return ResponseEntity.ok(tokenResponse);
@@ -26,9 +29,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
-        authService.register(dto.getFullName(), dto.getEmail(), dto.getUsername(), dto.getPassword());
+    public ResponseEntity<?> register(@RequestBody RegistrationDTO registration) {
+        String fullName = registration.getFullName();
+        String email = registration.getEmail();
+        String username = registration.getUsername();
+        String password = registration.getPassword();
+        authService.register(fullName, email, username, password);
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateToken() {
+        // If the JwtFilter runs and doesn't throw an exception, the token is valid
+        return ResponseEntity.ok(true);
     }
 
     // @PostMapping("/register")

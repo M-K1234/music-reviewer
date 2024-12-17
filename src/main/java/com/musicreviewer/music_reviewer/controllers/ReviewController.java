@@ -5,14 +5,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.musicreviewer.music_reviewer.dtos.ReviewDTO;
 import com.musicreviewer.music_reviewer.entities.Review;
-import com.musicreviewer.music_reviewer.repositories.ReviewRepository;
 import com.musicreviewer.music_reviewer.services.ReviewService;
 
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +40,4 @@ public class ReviewController {
         ReviewDTO reviewDto = reviewService.addReview(review);
         return reviewDto;
     }
-    
-
 }
