@@ -27,8 +27,8 @@ public class DataLoader implements CommandLineRunner {
         List<Review> reviews = new ArrayList<>();
 
         // tilføj news
-        news.add(new News(0, "Entity1", "Description1", null, null, null));
-        news.add(new News(0, "Entity2", "Description2", null, null, null));
+        news.add(new News(0, "Entity1", null, null, null, "Description1"));
+        news.add(new News(0, "Entity2", null, null, null, "Description2"));
         news.add(new News(0, "Entity3", "Description3", null, null, null));
         // tilføj reviews
         reviews.add(new Review( "Review1", "Description1"));

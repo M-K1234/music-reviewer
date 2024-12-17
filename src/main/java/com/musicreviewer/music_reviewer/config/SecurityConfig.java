@@ -45,8 +45,8 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/api/reviews/create").authenticated() // Protect review endpoints
+                .requestMatchers("/auth/login", "/auth/register", "/api/review/all", "/api/review/{id}").permitAll()
+                .requestMatchers("/api/review/create").authenticated() // Protect review endpoints
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
