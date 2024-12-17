@@ -18,13 +18,16 @@ import lombok.Data;
 @Data
 public class Account {
 
-    // public Account() {}
+    public Account() {}
 
-    // public Account(int id, LocalDateTime creationDate)
-    // {
-    //     this.id = id;
-    //     this.creationDate = creationDate;
-    // }
+    public Account(int id, LocalDateTime creationDate, int reviewsCreated,User user, Login login)
+    {
+        this.id = id;
+        this.creationDate = creationDate;
+        this.reviewsCreated = reviewsCreated;
+        this.user = user;
+        this.login = login;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

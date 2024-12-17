@@ -13,14 +13,14 @@ import lombok.Data;
 @Entity
 public class Login {
 
-    // public Login() {}
+    public Login() {}
 
-    // public Login(int id, String email, String password)
-    // {
-    //     this.id = id;
-    //     this.email = email;
-    //     this.password = password;
-    // }
+    public Login(int id, String email, String password)
+    {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

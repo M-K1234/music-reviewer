@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class Review {
 
     public Review() {}
