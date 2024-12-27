@@ -70,6 +70,14 @@ public class AuthService {
         accountRepository.save(account);
     }
 
+    public boolean checkEmailExists(String email) {
+        return loginRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean checkUsernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
     public Map<String, Object> generateTokenResponse(String username) {
         String token = jwtUtil.generateToken(username);
         Date expiration = jwtUtil.getTokenExpiration(token);

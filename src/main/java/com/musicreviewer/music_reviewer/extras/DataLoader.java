@@ -33,11 +33,10 @@ public class DataLoader implements CommandLineRunner {
         // tilføj reviews
         reviews.add(new Review( "Review1", "Description1"));
         reviews.add(new Review( "Review2", "Description2"));
-
         // Save all entities in batch
         newsRepository.saveAll(news);
         reviewRepository.saveAll(reviews);
-
+        
         System.out.println("Inserted " + news.size() + " news into the database.");
         System.out.println("Inserted " + reviews.size() + " reviews into the database.");
     }

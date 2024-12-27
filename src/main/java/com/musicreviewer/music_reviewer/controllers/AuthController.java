@@ -1,12 +1,17 @@
 package com.musicreviewer.music_reviewer.controllers;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import com.musicreviewer.music_reviewer.dtos.DuplicateCheckRequest;
 import com.musicreviewer.music_reviewer.dtos.LoginDTO;
 import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
 import com.musicreviewer.music_reviewer.services.AuthService;
+
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -29,7 +34,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationDTO registration) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegistrationDTO registration, BindingResult result) {
+        if (result.hasErrors()) {
+            // Collect validation errors
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(errors);
+        }
         String fullName = registration.getFullName();
         String email = registration.getEmail();
         String username = registration.getUsername();
@@ -42,6 +53,17 @@ public class AuthController {
     public ResponseEntity<Boolean> validateToken() {
         // If the JwtFilter runs and doesn't throw an exception, the token is valid
         return ResponseEntity.ok(true);
+    }
+    
+    @PostMapping("/check-duplicates")
+    public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request) {
+        boolean emailExists = authService.checkEmailExists(request.getEmail());
+        boolean usernameExists = authService.checkUsernameExists(request.getUsername());
+
+        return ResponseEntity.ok(Map.of(
+            "emailExists", emailExists,
+            "usernameExists", usernameExists
+        ));
     }
 
     // @PostMapping("/register")

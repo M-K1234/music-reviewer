@@ -46,7 +46,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/auth/login", "/auth/register", "/api/review/all", "/api/review/{id}").permitAll()
-                .requestMatchers("/api/review/create").authenticated() // Protect review endpoints
+                .requestMatchers("/api/review/all", "/api/review/{id}").permitAll()
+                .requestMatchers( "api/**").authenticated() // Protect review endpoints
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -67,7 +68,7 @@ public class SecurityConfig {
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Apply CORS configuration to all endpoints
+        // apply cors configuration to all endpoints
         source.registerCorsConfiguration("/**", config);
         return source;
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.musicreviewer.music_reviewer.dtos.AccountDTO;
@@ -21,20 +22,20 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    // Hent alle Accounts med deres anmeldelsesantal
-    public List<AccountDTO> getAllAccountsWithReviewCounts() {
-        List<Account> accounts = accountRepository.findAll();
-        return accounts.stream()
-                .map(account -> {
-                    int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
-                    return new AccountDTO(account, reviewCount);
-                })
-                .toList();
-    }
+    // // Hent alle Accounts med deres anmeldelsesantal
+    // public List<AccountDTO> getAllAccountsWithReviewCounts() {
+    //     List<Account> accounts = accountRepository.findAll();
+    //     return accounts.stream()
+    //             .map(account -> {
+    //                 int reviewCount = account.getReviews() != null ? account.getReviews().size() : 0;
+    //                 return new AccountDTO(account, reviewCount);
+    //             })
+    //             .toList();
+    // }
 
-    // Hent en Account med anmeldelsesantal via ID
-    public Optional<Account> getAccountById(int accountId) {
-        return accountRepository.findById(accountId);
+    public AccountDTO getAccountDTOById(int id) {
+        Optional<Account> account = accountRepository.findById(id);
+        return account.map(AccountDTO::new).orElse(null);
     }
 
     // Update en Account med et givet ID

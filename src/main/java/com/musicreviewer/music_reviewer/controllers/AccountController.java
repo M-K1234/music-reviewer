@@ -25,55 +25,64 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    // Create: Opret en ny Account
-    @PostMapping("/create")
-    public ResponseEntity<AccountDTO> createAccount(@RequestBody Account account) {
-        Account createdAccount = accountService.createAccount(account);
-        int reviewCount = createdAccount.getReviews() != null ? createdAccount.getReviews().size() : 0;
-        AccountDTO responseDTO = new AccountDTO(createdAccount, reviewCount);
-        return ResponseEntity.ok(responseDTO);
-    }
+    // // Create: Opret en ny Account
+    // @PostMapping("/create")
+    // public ResponseEntity<AccountDTO> createAccount(@RequestBody Account account) {
+    //     Account createdAccount = accountService.createAccount(account);
+    //     int reviewCount = createdAccount.getReviews() != null ? createdAccount.getReviews().size() : 0;
+    //     AccountDTO responseDTO = new AccountDTO(createdAccount, reviewCount);
+    //     return ResponseEntity.ok(responseDTO);
+    // }
 
-    // Read: Hent alle Accounts med deres anmeldelsesantal
-    @GetMapping("/all")
-    public List<AccountDTO> getAllAccountsWithReviewCounts() {
-        return accountService.getAllAccountsWithReviewCounts();
-    }
+    // // Read: Hent alle Accounts med deres anmeldelsesantal
+    // @GetMapping("/all")
+    // public List<AccountDTO> getAllAccountsWithReviewCounts() {
+    //     return accountService.getAllAccountsWithReviewCounts();
+    // }
 
-    // Read: Hent en Account med anmeldelsesantal via ID
-    @GetMapping("/read/{id}")
-    public ResponseEntity<AccountDTO> getAccountWithReviewCountById(@PathVariable int id) {
-        Optional<Account> account = accountService.getAccountById(id);
-        if (account.isPresent()) {
-            int reviewCount = account.get().getReviews() != null ? account.get().getReviews().size() : 0;
-            AccountDTO responseDTO = new AccountDTO(account.get(), reviewCount);
-            return ResponseEntity.ok(responseDTO);
+    // // Read: Hent en Account med anmeldelsesantal via ID
+    // @GetMapping("/read/{id}")
+    // public ResponseEntity<AccountDTO> getAccountWithReviewCountById(@PathVariable int id) {
+    //     Optional<Account> account = accountService.getAccountById(id);
+    //     if (account.isPresent()) {
+    //         int reviewCount = account.get().getReviews() != null ? account.get().getReviews().size() : 0;
+    //         AccountDTO responseDTO = new AccountDTO(account.get(), reviewCount);
+    //         return ResponseEntity.ok(responseDTO);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable int id) {
+        AccountDTO accountDTO = accountService.getAccountDTOById(id);
+        if (accountDTO != null) {
+            return ResponseEntity.ok(accountDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     // Update: Opdater en eksisterende Account med et givet ID
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account updatedAccount) {
-        Optional<Account> accountOptional = accountService.getAccountById(id);
-        if (accountOptional.isPresent()) {
-            Account savedAccount = accountService.updateAccount(id, updatedAccount);
-            return ResponseEntity.ok(savedAccount);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // @PutMapping("/update/{id}")
+    // public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account updatedAccount) {
+    //     Optional<Account> accountOptional = accountService.getAccountById(id);
+    //     if (accountOptional.isPresent()) {
+    //         Account savedAccount = accountService.updateAccount(id, updatedAccount);
+    //         return ResponseEntity.ok(savedAccount);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
 
     // Delete: Slet en Account
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
-        if (accountService.getAccountById(id).isPresent()) {
-            accountService.deleteAccount(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // @DeleteMapping("/delete/{id}")
+    // public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
+    //     if (accountService.getAccountById(id).isPresent()) {
+    //         accountService.deleteAccount(id);
+    //         return ResponseEntity.noContent().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 }
