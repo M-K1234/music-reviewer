@@ -100,9 +100,10 @@ class AuthControllerIntegrationTest {
                 .andExpect(jsonPath("$.fullName", startsWith("size must be between")));
     }
 
-    @Test
-    void register_givenEmailIsValid_returnOk() throws Exception {
-        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), faker.internet().emailAddress(), faker.internet().slug(), faker.internet().password());
+    @ParameterizedTest
+    @MethodSource(value = DATA_PROVIDER_PATH + "#validEmailAddresses")
+    void register_givenEmailIsValid_returnOk(String email) throws Exception {
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, faker.internet().slug(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -112,8 +113,8 @@ class AuthControllerIntegrationTest {
 
     @ParameterizedTest
     @MethodSource(value = DATA_PROVIDER_PATH + "#invalidEmailAddresses")
-    void register_givenEmailContainsInvalidCharacter_returnBadRequest() throws Exception {
-        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), "cgfhghghghhg", faker.internet().slug(), faker.internet().password());
+    void register_givenEmailContainsInvalidCharacter_returnBadRequest(String email) throws Exception {
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, faker.internet().slug(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
