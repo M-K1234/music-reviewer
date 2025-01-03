@@ -19,10 +19,12 @@ public class RegistrationDTO {
     @NotBlank
     @Email
     private String email;
+
     @NotBlank
     @Size(min = 3, max = 20)
     @Pattern(regexp = "^[a-zA-Z0-9_-]+$")
     private String username;
+
     @NotBlank
     @Size(min = 6, max = 64)
     private String password;
