@@ -57,7 +57,7 @@ class AuthControllerIntegrationTest {
 
     @Test
     void register_givenValidRequestBody_returnOk() throws Exception {
-        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), faker.internet().emailAddress(), faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), faker.internet().emailAddress(), username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -67,7 +67,7 @@ class AuthControllerIntegrationTest {
     @ParameterizedTest
     @NullAndEmptySource
     void register_givenFullNameIsNullOrEmpty_returnBadRequest(String input) throws Exception {
-        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -77,7 +77,7 @@ class AuthControllerIntegrationTest {
     @ParameterizedTest
     @MethodSource(value = DATA_PROVIDER_PATH + "#invalidFullNames")
     void register_givenFullNameContainsInvalidCharacter_returnBadRequest(String input) throws Exception {
-        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -92,7 +92,7 @@ class AuthControllerIntegrationTest {
             "Jane LastnameTwoCharacterTooManyAAAAAAAAAAAAAAAAAAAA"  // 52 characters
     })
     void register_givenFullNameHasInvalidLength_returnBadRequest(String input) throws Exception {
-        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(input, faker.internet().emailAddress(), username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -103,7 +103,7 @@ class AuthControllerIntegrationTest {
     @ParameterizedTest
     @MethodSource(value = DATA_PROVIDER_PATH + "#validEmailAddresses")
     void register_givenEmailIsValid_returnOk(String email) throws Exception {
-        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
@@ -114,11 +114,24 @@ class AuthControllerIntegrationTest {
     @ParameterizedTest
     @MethodSource(value = DATA_PROVIDER_PATH + "#invalidEmailAddresses")
     void register_givenEmailContainsInvalidCharacter_returnBadRequest(String email) throws Exception {
-        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, faker.internet().slug(), faker.internet().password());
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
 
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.email", startsWith("must be a well-formed email address")));
+    }
+
+    private String username() {
+        // Generate slug and ensure that it fits the username field requirements
+        var slug = faker.internet().slug();
+        slug = slug.replace('.', '_');
+        if (slug.length() < 3) {
+            slug += "xxx".substring(0, 3 - slug.length());
+        }
+        if (slug.length() > 20) {
+            slug = slug.substring(0, 20);
+        }
+        return slug;
     }
 }
