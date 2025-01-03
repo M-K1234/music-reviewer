@@ -7,8 +7,10 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class RegistrationDTO {
     @NotBlank
