@@ -16,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    // private final BCryptPasswordEncoder passwordEncoder;
 
-
-    // Hent alle brugere
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(UserDTO::new).collect(Collectors.toList());
@@ -28,32 +25,15 @@ public class UserService {
     
     public UserDTO getUserById(int id) {
         Optional<User> user = userRepository.findById(id);
-        return user.map(UserDTO::new).orElse(null); // Returner null, hvis brugeren ikke findes
+        return user.map(UserDTO::new).orElse(null);
     }
 
-    // Opret en ny bruger
     public UserDTO createUser(UserDTO userDTO) {
-        User user = userDTO.toEntity(); // Konverter DTO til entitet
+        User user = userDTO.toEntity();
         User savedUser = userRepository.save(user);
-        return new UserDTO(savedUser); // Konverter den gemte entitet tilbage til DTO
+        return new UserDTO(savedUser);
     }
 
-    // Opdater en eksisterende bruger
-    // public UserDTO updateUser(int id, User user) {
-    //     Optional<User> existingUser = userRepository.findById(id);
-
-    //     if (existingUser.isPresent()) {
-    //         User user = existingUser.get();
-    //         user.setFullName(userDTO.getFirstname());
-    //         user.setUsername(userDTO.getUsername());
-    //         User updatedUser = userRepository.save(user);
-    //         return new UserDTO(updatedUser);
-    //     } else {
-    //         return null; // Eller smid en exception
-    //     }
-    // }
-
-    // Slet en bruger
     public boolean deleteUser(int id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
