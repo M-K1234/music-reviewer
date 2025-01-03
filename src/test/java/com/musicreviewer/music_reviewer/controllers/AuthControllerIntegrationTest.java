@@ -69,16 +69,6 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-   /* @Test
-    void register_givenFullNameIsBlank_returnBadRequest() throws Exception {
-        var registrationBody = new RegistrationDTO("", faker.internet().emailAddress(), "user1", faker.internet().password());
-
-        mvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.fullName", startsWith("must not be blank")));
-    }*/
-
     @ParameterizedTest
     @ValueSource(strings = {
             "@Jane Doe",        // @ at start
