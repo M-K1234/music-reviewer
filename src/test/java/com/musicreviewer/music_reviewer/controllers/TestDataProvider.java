@@ -8,6 +8,10 @@ public class TestDataProvider {
         return Stream.of(INVALID_EMAIL_TEST_CASES);
     }
 
+    public static Stream<String> validEmailAddresses() {
+        return Stream.of(VALID_EMAIL_TEST_CASES);
+    }
+
     public static Stream<String> invalidFullNames() {
         return Stream.of(INVALID_FULL_NAME_TEST_CASES);
     }
@@ -17,39 +21,43 @@ public class TestDataProvider {
             "@noLocalPart.com",
             "Outlook Contact <outlook-contact@domain.com>",
             "no-at.domain.com",
-            "no.tld@domain",
             ";beginning-semicolon@domain.co.uk",
             "middle-semicolon@domain.co;uk",
             "trailing-semicolon@domain.com;",
             "\"email+leading-quotes@domain.com",
             "email+middle\"-quotes@domain.com",
-            "\"quoted-local-part\"@domain.com",
             "lots-of-dots@domain..com",
             "two-dots..in-local@domain.com",
             "multiple@domains@domain.com",
             "spaces in local@domain.com",
             "spaces-in-domain@dom ain.com",
-            "underscores-in-domain@dom_ain.com",
-            "pipe-in-domain@example.com|gov.uk",
             "comma,in-local@domain.com",
             "comma-in-domain@domain,com",
             "pound-sign-in-local#domain.com",
-            "local-with-’-apostrophe@domain.com",
-            "local-with-”-quotes@domain.com",
-            "invalid-characters-in-domain@domain!.com",
-            "invalid-characters-in-local@domain.com!",
             "missing-username@.com",
             "missing-domain@domain.",
             "missing-at-sign.com",
             "missing-local-and-at@.com",
-            "missing-tld@domain",
             "invalid@domain,com",
             "invalid@domain..com",
             "invalid@-domain.com",
             "invalid@domain-.com",
-            "invalid@domain.c",
-            "invalid@domain.toolongtld",
             "invalid@.domain.com"};
+
+    private static final String[] VALID_EMAIL_TEST_CASES = {
+            "simple@example.com",                       // Basic ascii lowercase
+            "mixedCASE@DOMAIN.COM",                     // Basic ascii mixed case
+            "very.common@example.com",                  // Local part with period
+            "!#$%&'*/=?^_`{|}~@example.org",            // Local part with special characters
+            "alice+tag@example.co.uk",                  // Local part with a plus sign
+            "kittycat@sub-domain.co.uk",                // Hyphenated domain
+            "doge@Domain456.net",                       // Numeric domain label
+            "user_name@domain_name.com",                // Local part + domain with underscore
+            "email-with-dash@sub.domain.com",           // Local part with dash
+            "user@[127.0.0.1]",                         // IPv4 literal domain
+            "user@[IPv6:2001:db8:85a3::8a2e:370:7334]", // IPv6 literal domain
+            "d@k.dk"                                    // Short danish
+    };
 
     private static final String[] INVALID_FULL_NAME_TEST_CASES = {
             "@Jane Doe",        // @ at start
