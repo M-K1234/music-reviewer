@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.musicreviewer.music_reviewer.dtos.AccountDTO;
@@ -16,6 +17,8 @@ public class AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Opret en ny Account
     public Account createAccount(Account account) {
@@ -64,27 +67,29 @@ public class AccountService {
     //     }
     // }
     public Account updateAccount(int accountId, AccountDTO updatedAccount) {
-        // Find existing Account in the database by ID
         Optional<Account> existingAccountOptional = accountRepository.findById(accountId);
     
         if (existingAccountOptional.isPresent()) {
             Account existingAccount = existingAccountOptional.get();
     
-            // Update only the allowed fields
-            
+            // Update allowed fields
             existingAccount.getLogin().setEmail(updatedAccount.getEmail());
-            existingAccount.getLogin().setPassword(updatedAccount.getPassword());
+            existingAccount.getLogin().setPassword(
+                // Check if the password is already hashed or not before hashing again
+                passwordEncoder.matches(updatedAccount.getPassword(), existingAccount.getLogin().getPassword())
+                    ? existingAccount.getLogin().getPassword() // Keep existing hashed password
+                    : passwordEncoder.encode(updatedAccount.getPassword()) // Hash new password
+            );
             existingAccount.getUser().setFullName(updatedAccount.getFullName());
             existingAccount.getUser().setUsername(updatedAccount.getUsername());
             existingAccount.setReviewsCreated(updatedAccount.getReviewsCreated());
-            
     
-            // Save and return the updated account
+            // Save and return updated account
             return accountRepository.save(existingAccount);
         } else {
             throw new IllegalArgumentException("Account with ID " + accountId + " not found.");
         }
-    }    
+    }
     
     // Slet en Account
     public void deleteAccount(int accountId) {

@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,15 +58,22 @@ public class AuthController {
     }
     
     @PostMapping("/check-duplicates")
-    public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request) {
-        boolean emailExists = authService.checkEmailExists(request.getEmail());
-        boolean usernameExists = authService.checkUsernameExists(request.getUsername());
+public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    String currentEmail = userDetails.getUsername(); // Assuming email is the username
 
-        return ResponseEntity.ok(Map.of(
-            "emailExists", emailExists,
-            "usernameExists", usernameExists
-        ));
-    }
+    // Check if email or username is already taken
+    boolean emailExists = !currentEmail.equals(request.getEmail()) && authService.checkEmailExists(request.getEmail());
+    boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
+
+    return ResponseEntity.ok(Map.of(
+        "emailExists", emailExists,
+        "usernameExists", usernameExists,
+        "currentEmail", currentEmail, // Add current email
+        "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
+    ));
+}
+
+
 
     // @PostMapping("/register")
     // public ResponseEntity<String> register(
