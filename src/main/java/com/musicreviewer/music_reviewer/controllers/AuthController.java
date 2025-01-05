@@ -28,12 +28,18 @@ public class AuthController {
         String email = login.getEmail();
         String password = login.getPassword();
         try {
+            // Authenticate and generate the JWT
             Map<String, Object> tokenResponse = authService.authenticateAndGenerateTokenResponse(email, password);
             return ResponseEntity.ok(tokenResponse);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+            // Return a generic error for invalid credentials
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid email or password."));
+        } catch (Exception ex) {
+            // Handle unexpected errors
+            return ResponseEntity.status(500).body(Map.of("error", "An unexpected error occurred. Please try again later."));
         }
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegistrationDTO registration, BindingResult result) {
