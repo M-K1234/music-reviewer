@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(
-    name = "user",
+    name = "users",
     uniqueConstraints = @UniqueConstraint(columnNames = "username")
 )
 public class User {
@@ -35,7 +35,4 @@ public class User {
     
     @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;
-
-    // @OneToOne
-    // private Account account;
 }
