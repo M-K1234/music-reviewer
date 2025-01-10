@@ -64,21 +64,19 @@ public class AuthController {
     }
     
     @PostMapping("/check-duplicates")
-public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
-    String currentEmail = userDetails.getUsername(); // Assuming email is the username
+    public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        String currentEmail = userDetails.getUsername(); // Assuming email is the username
 
-    // Check if email or username is already taken
-    boolean emailExists = !currentEmail.equals(request.getEmail()) && authService.checkEmailExists(request.getEmail());
-    boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
+        // Check if email or username is already taken
+        boolean emailExists = !currentEmail.equals(request.getEmail()) && authService.checkEmailExists(request.getEmail());
+        boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
 
-    return ResponseEntity.ok(Map.of(
-        "emailExists", emailExists,
-        "usernameExists", usernameExists,
-        "currentEmail", currentEmail, // Add current email
-        "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
-    ));
-}
-
-
+        return ResponseEntity.ok(Map.of(
+            "emailExists", emailExists,
+            "usernameExists", usernameExists,
+            "currentEmail", currentEmail, // Add current email
+            "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
+        ));
+    }
 }
 
