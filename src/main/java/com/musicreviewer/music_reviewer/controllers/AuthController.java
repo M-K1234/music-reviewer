@@ -65,19 +65,5 @@ public class AuthController {
             "usernameExists", usernameExists
         ));
     }
-
-    // @PostMapping("/register")
-    // public ResponseEntity<String> register(
-    //         @RequestParam String fullName,
-    //         @RequestParam String email,
-    //         @RequestParam String username,
-    //         @RequestParam String password) {
-    //     try {
-    //         authService.register(fullName, email, username, password);
-    //         return ResponseEntity.ok("Registration successful");
-    //     } catch (IllegalArgumentException e) {
-    //         return ResponseEntity.badRequest().body(e.getMessage());
-    //     }
-    // }
 }
 

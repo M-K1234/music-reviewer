@@ -42,21 +42,37 @@ public class TestDataProvider {
             "invalid@domain..com",
             "invalid@-domain.com",
             "invalid@domain-.com",
-            "invalid@.domain.com"};
+            "invalid@.domain.com"
+    };
 
     private static final String[] VALID_EMAIL_TEST_CASES = {
-            "simple@example.com",                       // Basic ascii lowercase
-            "mixedCASE@DOMAIN.COM",                     // Basic ascii mixed case
+            "janedoe@example.com",                      // Basic ascii lowercase
+            "JANEDOE@EXAMPLE.COM",                      // Basic ascii uppercase
+            "mixedCASE@DOMAin.coM",                     // Basic ascii mixed case
             "very.common@example.com",                  // Local part with period
-            "!#$%&'*/=?^_`{|}~@example.org",            // Local part with special characters
-            "alice+tag@example.co.uk",                  // Local part with a plus sign
-            "kittycat@sub-domain.co.uk",                // Hyphenated domain
-            "doge@Domain456.net",                       // Numeric domain label
-            "user_name@domain_name.com",                // Local part + domain with underscore
-            "email-with-dash@sub.domain.com",           // Local part with dash
+            "Jane!Doe@example.org",                     // Local part with exclamation mark
+            "Jane#Doe@example.org",                     // Local part with hash
+            "Jane$Doe@example.org",                     // Local part with dollar sign
+            "Jane%Doe@example.org",                     // Local part with percent sign
+            "Jane&Doe@example.org",                     // Local part with ampersand
+            "Jane'Doe@example.org",                     // Local part with single quote
+            "Jane*Doe@example.org",                     // Local part with star
+            "Jane/Doe@example.org",                     // Local part with forward slash
+            "Jane=Doe@example.org",                     // Local part with equals
+            "Jane?Doe@example.org",                     // Local part with question mark
+            "Jane^Doe@example.org",                     // Local part with up arrow
+            "Jane_Doe@example.org",                     // Local part with underscore
+            "Jane-Doe@example.org",                     // Local part with dash
+            "Jane`Doe@example.org",                     // Local part with back tick
+            "Jane{}Doe@example.org",                    // Local part with curly braces
+            "Jane|Doe@example.org",                     // Local part with pipe
+            "Jane~Doe@example.org",                     // Local part with tilda
+            "Jane+Jill@example.co.uk",                  // Local part with plus
+            "kittycat@sub-domain.co.uk",                // Domain with hyphen
+            "doge@Domain456.net",                       // Domain with numbers
+            "username@domain_name.com",                 // Domain with underscore
             "user@[127.0.0.1]",                         // IPv4 literal domain
             "user@[IPv6:2001:db8:85a3::8a2e:370:7334]", // IPv6 literal domain
-            "d@k.dk"                                    // Short danish
     };
 
     private static final String[] INVALID_FULL_NAME_TEST_CASES = {
