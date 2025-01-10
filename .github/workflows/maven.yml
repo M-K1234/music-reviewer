@@ -5,6 +5,17 @@ on:
     branches:
       - '*' # Matches the current branch for any push
 
+# creates a test db
+services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ env.PASSWORD }}
+          MYSQL_DATABASE: ${{ env.DATABASE_NAME }}
+          MYSQL_USER: ${{ env.USERNAME }}
+          MYSQL_PASSWORD: ${{ env.PASSWORD }}
+        ports:
+          - 3306:3306  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -33,4 +44,4 @@ jobs:
       # Run tests
       - name: Run tests
         run: mvn test
-# line for testing CI, run 2
+# line for testing CI, run 3
