@@ -1,5 +1,6 @@
 package com.musicreviewer.music_reviewer.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.musicreviewer.music_reviewer.MusicReviewerApplication;
@@ -7,6 +8,7 @@ import com.musicreviewer.music_reviewer.config.FakerTestConfig;
 import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -108,7 +110,6 @@ class AuthControllerIntegrationTest {
         mvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
                 .andExpect(status().isOk());
-
     }
 
     @ParameterizedTest
@@ -120,6 +121,20 @@ class AuthControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.email", startsWith("must be a well-formed email address")));
+    }
+
+    @Disabled("Bug reported, test ignored until fixed")
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "d@k.dk",                                                                           // Local part 1 char
+            "Jfjhkljukkjjhbghfgjdfjnvnhvhvhnvhfjdkdfjhfghghdjcnvhfgjdjxjhvhgh@example.com"      // Local part 64 char
+    })
+    void register_givenEmailHasValidLength_returnOk(String email) throws Exception {
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
+
+        mvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
+                .andExpect(status().isOk());
     }
 
     private String username() {

@@ -64,35 +64,19 @@ public class AuthController {
     }
     
     @PostMapping("/check-duplicates")
-public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
-    String currentEmail = userDetails.getUsername(); // Assuming email is the username
+    public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        String currentEmail = userDetails.getUsername(); // Assuming email is the username
 
-    // Check if email or username is already taken
-    boolean emailExists = !currentEmail.equals(request.getEmail()) && authService.checkEmailExists(request.getEmail());
-    boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
+        // Check if email or username is already taken
+        boolean emailExists = !currentEmail.equals(request.getEmail()) && authService.checkEmailExists(request.getEmail());
+        boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
 
-    return ResponseEntity.ok(Map.of(
-        "emailExists", emailExists,
-        "usernameExists", usernameExists,
-        "currentEmail", currentEmail, // Add current email
-        "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
-    ));
-}
-
-
-
-    // @PostMapping("/register")
-    // public ResponseEntity<String> register(
-    //         @RequestParam String fullName,
-    //         @RequestParam String email,
-    //         @RequestParam String username,
-    //         @RequestParam String password) {
-    //     try {
-    //         authService.register(fullName, email, username, password);
-    //         return ResponseEntity.ok("Registration successful");
-    //     } catch (IllegalArgumentException e) {
-    //         return ResponseEntity.badRequest().body(e.getMessage());
-    //     }
-    // }
+        return ResponseEntity.ok(Map.of(
+            "emailExists", emailExists,
+            "usernameExists", usernameExists,
+            "currentEmail", currentEmail, // Add current email
+            "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
+        ));
+    }
 }
 
