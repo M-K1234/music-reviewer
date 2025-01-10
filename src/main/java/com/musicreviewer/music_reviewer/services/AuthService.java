@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.entities.Login;
 import com.musicreviewer.music_reviewer.entities.User;
@@ -38,6 +39,23 @@ public class AuthService {
     
         return generateTokenResponse(email);
     }
+
+    public boolean isCurrentUserEmail(String email, String currentEmail) {
+        return currentEmail.equals(email);
+    }
+    
+    public boolean isCurrentUserUsername(String username, String currentEmail) {
+        return accountRepository.findByLoginEmail(currentEmail)
+                .map(account -> account.getUser().getUsername().equals(username))
+                .orElse(false);
+    }
+
+    public String getUsernameByEmail(String email) {
+        return accountRepository.findByLoginEmail(email)
+                .map(account -> account.getUser().getUsername())
+                .orElse(null);
+    }
+    
     
     @Transactional
     public void register(String fullName, String email, String username, String password) {
