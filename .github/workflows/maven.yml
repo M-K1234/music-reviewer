@@ -5,6 +5,11 @@ on:
     branches:
       - '*' # Matches the current branch for any push
 
+ 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
 # creates a test db
 services:
       mysql:
@@ -16,9 +21,6 @@ services:
           MYSQL_PASSWORD: ${{ env.PASSWORD }}
         ports:
           - 3306:3306  
-jobs:
-  test:
-    runs-on: ubuntu-latest
 
     steps:
       # Checkout the repository
@@ -44,4 +46,4 @@ jobs:
       # Run tests
       - name: Run tests
         run: mvn test
-# line for testing CI, run 3
+# line for testing CI, run 4
