@@ -5,13 +5,12 @@ on:
     branches:
       - '*' # Matches the current branch for any push
 
- 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-# creates a test db
-services:
+    # creates a test db
+    services:
       mysql:
         image: mysql:8
         env:
@@ -46,4 +45,4 @@ services:
       # Run tests
       - name: Run tests
         run: mvn test
-# line for testing CI, run 5
+# run 6
