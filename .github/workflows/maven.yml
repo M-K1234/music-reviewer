@@ -15,11 +15,11 @@ jobs:
         uses: actions/checkout@v3
 
       # Set up JDK
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       # Cache Maven dependencies
       - name: Cache Maven dependencies
@@ -33,3 +33,4 @@ jobs:
       # Run tests
       - name: Run tests
         run: mvn test
+# line for testing CI, run 1
