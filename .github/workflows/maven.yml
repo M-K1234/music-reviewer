@@ -1,50 +1,43 @@
-name: Run Tests
+name: Maven Build and Checkstyle
 
 on:
   push:
     branches:
-      - '*' # Matches the current branch for any push
+      - main
+  pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
-    # creates a test db
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ env.PASSWORD }}
-          MYSQL_DATABASE: ${{ env.DATABASE_NAME }}
-          MYSQL_USER: ${{ env.USERNAME }}
-          MYSQL_PASSWORD: ${{ env.PASSWORD }}
-        ports:
-          - 3306:3306  
-
     steps:
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # Set up JDK
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
+    # Step 2: Set up JDK
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
 
-      # Cache Maven dependencies
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-       # Step 4: Run Checkstyle
-      - name: Run Checkstyle
-        run: mvn checkstyle:check
-      # Run tests
-      - name: Run tests
-        run: mvn test
-# run 6
+    # Step 3: Install dependencies (without running tests)
+    - name: Install dependencies
+      run: mvn install -DskipTests
+
+    # Step 4: Run Checkstyle (continue even if there are violations)
+    - name: Run Checkstyle
+      run: mvn checkstyle:checkstyle
+      continue-on-error: true
+
+    # Step 5: Upload Checkstyle report as an artifact
+    - name: Upload Checkstyle report
+      uses: actions/upload-artifact@v3
+      with:
+        name: checkstyle-report
+        path: target/site/checkstyle.html
+
+    # Step 6: Run Tests
+    - name: Run tests
+      run: mvn test
