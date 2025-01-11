@@ -41,7 +41,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
+       # Step 4: Run Checkstyle
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
       # Run tests
       - name: Run tests
         run: mvn test
