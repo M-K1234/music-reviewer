@@ -35,7 +35,4 @@ public class Login {
 
     @Column(nullable = false, length = 100)
     private String password;
-
-    // @OneToOne
-    // private Account account;
 }

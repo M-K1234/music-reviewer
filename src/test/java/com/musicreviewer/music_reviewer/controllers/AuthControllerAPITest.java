@@ -1,13 +1,10 @@
 package com.musicreviewer.music_reviewer.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.musicreviewer.music_reviewer.MusicReviewerApplication;
 import com.musicreviewer.music_reviewer.config.FakerTestConfig;
 import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
 @Import(FakerTestConfig.class)
-class AuthControllerIntegrationTest {
+class AuthControllerAPITest {
 
     @Autowired
     private MockMvc mvc;
