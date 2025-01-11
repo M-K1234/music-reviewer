@@ -101,6 +101,5 @@ public class AuthService {
         Date expiration = jwtUtil.getTokenExpiration(token);
         return Map.of("token", token, "expiresAt", expiration.getTime());
     }
-    
 }
 
