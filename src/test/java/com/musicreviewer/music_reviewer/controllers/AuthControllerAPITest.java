@@ -108,7 +108,7 @@ class AuthControllerAPITest {
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
                 .andExpect(status().isOk());
     }
-
+    //
     @ParameterizedTest
     @MethodSource(value = DATA_PROVIDER_PATH + "#invalidEmailAddresses")
     void register_givenEmailContainsInvalidCharacter_returnBadRequest(String email) throws Exception {
