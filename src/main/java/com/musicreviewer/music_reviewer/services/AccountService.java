@@ -43,10 +43,7 @@ public class AccountService {
             // Update allowed fields
             existingAccount.getLogin().setEmail(updatedAccount.getEmail());
             existingAccount.getLogin().setPassword(
-                // Check if the password is already hashed or not before hashing again
-                passwordEncoder.matches(updatedAccount.getPassword(), existingAccount.getLogin().getPassword())
-                    ? existingAccount.getLogin().getPassword() // Keep existing hashed password
-                    : passwordEncoder.encode(updatedAccount.getPassword()) // Hash new password
+                    getOrHashPassword(updatedAccount, existingAccount)
             );
             existingAccount.getUser().setFullName(updatedAccount.getFullName());
             existingAccount.getUser().setUsername(updatedAccount.getUsername());
@@ -57,7 +54,14 @@ public class AccountService {
         } else {
             throw new IllegalArgumentException("Account with ID " + accountId + " not found.");
         }
-    }    
+    }
+
+    private String getOrHashPassword(AccountDTO updatedAccount, Account existingAccount) {
+        // Check if the password is already hashed or not before hashing again
+        return passwordEncoder.matches(updatedAccount.getPassword(), existingAccount.getLogin().getPassword())
+                ? existingAccount.getLogin().getPassword() // Keep existing hashed password
+                : passwordEncoder.encode(updatedAccount.getPassword());
+    }
 
     public void deleteAccount(int accountId) {
         accountRepository.deleteById(accountId);
