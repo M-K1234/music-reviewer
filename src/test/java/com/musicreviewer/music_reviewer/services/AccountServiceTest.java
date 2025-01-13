@@ -1,6 +1,7 @@
 package com.musicreviewer.music_reviewer.services;
 
 import com.musicreviewer.music_reviewer.dtos.AccountDTO;
+import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.repositories.AccountRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +45,7 @@ class AccountServiceTest {
         assertThrows(IllegalArgumentException.class, () -> accountService.updateAccount(0, accountDto));
     }
     @Test
-    void updateAccount_givenCorrectInput_AccountIsSaved() {
+    void updateAccount_givenCorrectInput_accountIsSaved() {
         var account = AccountBuilder.create().withEmail().withPassword("password").withUsername().withFullName().build();
         var accountDto = new AccountDTO(account);
 
@@ -55,13 +56,50 @@ class AccountServiceTest {
         verify(accountRepository, times(1)).save(account);
     }
 
-    // updateAccount_ verify that when a field is changed, the change is saved in the database
+    @Test
+    void updateAccount_givenFieldChanged_shouldSaveUpdatedValues() {
 
-    // test that the password is updated when new password is supplied
+        //Arrange
 
-    // test that the password is encoded before / when its saved
+        var existingAccount = AccountBuilder.create()
+                .withId(1)
+                .withEmail("old@example.com")
+                .withPassword("oldHashedPassword")
+                .withFullName()
+                .withUsername()
+                .withReviewsCreated(5)
+                .build();
 
-    // test invalid inputs (null, empty string, boundary values
+        var expected = new AccountDTO();
+        expected.setId(1);
+        expected.setEmail("new@example.com");
+        expected.setPassword("newCleartextPassword");
+        expected.setFullName("New Full Name");
+        expected.setUsername("newUsername");
+        expected.setReviewsCreated(10);
 
-    // what happens when the object returned from the database has invalid values like null
+        final var newHashedPassword = "newHashedPassword";
+
+        when(accountRepository.findById(1)).thenReturn(Optional.of(existingAccount));
+        when(passwordEncoder.matches(expected.getPassword(), existingAccount.getLogin().getPassword())).thenReturn(false);
+        when(passwordEncoder.encode(expected.getPassword())).thenReturn(newHashedPassword);
+
+        // Act
+
+        accountService.updateAccount(1, expected);
+
+        // Assert
+
+        verify(accountRepository).save(matchesExpected(expected, newHashedPassword));
+    }
+
+    private static Account matchesExpected(AccountDTO expected, String newHashedPassword) {
+        return argThat(actual ->
+                actual.getLogin().getEmail().equals(expected.getEmail())
+                        && actual.getLogin().getPassword().equals(newHashedPassword)
+                        && actual.getUser().getFullName().equals(expected.getFullName())
+                        && actual.getUser().getUsername().equals(expected.getUsername())
+                        && actual.getReviewsCreated() == expected.getReviewsCreated()
+        );
+    }
 }
