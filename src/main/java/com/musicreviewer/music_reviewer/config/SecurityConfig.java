@@ -46,7 +46,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/auth/login", "/auth/register", "/api/review/all", "/api/review/{id}", "/api/news/all", "/api/news/{id}").permitAll()
-                .requestMatchers("/api/review/all", "/api/review/{id}").permitAll()
+                .requestMatchers("/api/review/all", "/api/review/{id}", "/api/charts", "/api/charts/albums").permitAll()
                 .requestMatchers( "api/**").authenticated() // Protect review endpoints
                 .anyRequest().authenticated()
             )
