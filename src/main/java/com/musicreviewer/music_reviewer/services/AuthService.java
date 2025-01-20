@@ -40,10 +40,6 @@ public class AuthService {
         return generateTokenResponse(email);
     }
 
-    public boolean isCurrentUserEmail(String email, String currentEmail) {
-        return currentEmail.equals(email);
-    }
-    
     public boolean isCurrentUserUsername(String username, String currentEmail) {
         return accountRepository.findByLoginEmail(currentEmail)
                 .map(account -> account.getUser().getUsername().equals(username))

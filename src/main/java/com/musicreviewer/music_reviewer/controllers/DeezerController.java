@@ -17,8 +17,6 @@ public class DeezerController {
 
     @GetMapping("/albums")
     public Mono<String> getAlbums() {
-         var x = deezerService.fetchTopAlbums();
-         return x;
+        return deezerService.fetchTopAlbums();
     }
-    
 }

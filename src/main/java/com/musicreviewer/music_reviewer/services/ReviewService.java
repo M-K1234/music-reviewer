@@ -29,11 +29,6 @@ public class ReviewService {
                       .collect(Collectors.toList());
     }
 
-    // Create a new review
-    public Review createReview(Review review) {
-        return reviewRepository.save(review);
-    }
-
     public List<ReviewDTO> getAllReviews() {
         List<Review> reviews = reviewRepository.findAll();
         return mapToDTOList(reviews);
@@ -44,41 +39,8 @@ public class ReviewService {
         return mapToDTO(review);
     }
 
-    public Review updateReview(int reviewId, Review updatedReview) {
-        
-
-        if (reviewRepository.existsById(reviewId)) {
-           Review review = reviewRepository.findById(reviewId).get();
-            review.setText(updatedReview.getText());  
-        review.setAuthor(updatedReview.getAuthor());
-        review.setScore(updatedReview.getScore()); 
-        review.setTitle(updatedReview.getTitle()); 
-        review.setImgurl(updatedReview.getImgurl());   
-        review.setCreation_date(updatedReview.getCreation_date());   
-        return reviewRepository.save(review);
-        } else
-        {
-            throw new RuntimeException("Review not found with id: " + reviewId);
-        }
-        
-                
-    }
-
     public ReviewDTO addReview(Review newReview) {
-
         reviewRepository.save(newReview);
-        ReviewDTO reviewDTO = mapToDTO(newReview);
-        return reviewDTO;
-                
-    }
-
-    public void deleteReview(int reviewId) {
-        if (reviewRepository.existsById(reviewId)) 
-        {
-            reviewRepository.deleteById(reviewId);
-        } else 
-        {
-            throw new RuntimeException("Review not found with id: " + reviewId);
-        }
+        return mapToDTO(newReview);
     }
 }
