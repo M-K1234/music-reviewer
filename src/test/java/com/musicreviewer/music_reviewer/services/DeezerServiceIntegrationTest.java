@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-class DeezerServiceTest {
+class DeezerServiceIntegrationTest {
 
     private static final String TEST_URL = "http://localhost:";
 

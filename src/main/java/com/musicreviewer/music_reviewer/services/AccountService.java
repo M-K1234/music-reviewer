@@ -1,13 +1,9 @@
 package com.musicreviewer.music_reviewer.services;
 
-import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.musicreviewer.music_reviewer.dtos.AccountDTO;
 import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.repositories.AccountRepository;
@@ -19,10 +15,6 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public Account createAccount(Account account) {
-        return accountRepository.save(account);
-    }
 
     public AccountDTO getAccountDTOByEmail(String email) {
         Optional<Account> account = accountRepository.findByLoginEmail(email);
