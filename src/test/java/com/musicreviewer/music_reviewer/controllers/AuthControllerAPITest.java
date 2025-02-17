@@ -120,19 +120,19 @@ class AuthControllerAPITest {
                 .andExpect(jsonPath("$.email", startsWith("must be a well-formed email address")));
     }
 
-    // @Disabled("Bug reported, test ignored until fixed")
-    // @ParameterizedTest
-    // @ValueSource(strings = {
-    //         "d@k.dk",                                                                           // Local part 1 char
-    //         "Jfjhkljukkjjhbghfgjdfjnvnhvhvhnvhfjdkdfjhfghghdjcnvhfgjdjxjhvhgh@example.com"      // Local part 64 char
-    // })
-    // void register_givenEmailHasValidLength_returnOk(String email) throws Exception {
-    //     var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
+     @Disabled("Bug reported, test ignored until fixed")
+     @ParameterizedTest
+     @ValueSource(strings = {
+             "d@k.dk",                                                                           // Local part 1 char
+             "Jfjhkljukkjjhbghfgjdfjnvnhvhvhnvhfjdkdfjhfghghdjcnvhfgjdjxjhvhgh@example.com"      // Local part 64 char
+     })
+     void register_givenEmailHasValidLength_returnOk(String email) throws Exception {
+         var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
 
-    //     mvc.perform(post("/auth/register")
-    //                     .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
-    //             .andExpect(status().isOk());
-    // }
+         mvc.perform(post("/auth/register")
+                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
+                 .andExpect(status().isOk());
+     }
 
     private String username() {
         // Generate slug and ensure that it fits the username field requirements
