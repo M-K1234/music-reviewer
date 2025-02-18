@@ -17,5 +17,5 @@ public class NewsDTO {
     private String creation_date;
     private String imgurl;
     private String text;
-    
+
 }

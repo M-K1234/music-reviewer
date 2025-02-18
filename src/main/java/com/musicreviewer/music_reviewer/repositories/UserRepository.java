@@ -1,12 +1,9 @@
 package com.musicreviewer.music_reviewer.repositories;
 
-import java.util.Optional;
-
-//import java.util.Optional;
-
+import com.musicreviewer.music_reviewer.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.musicreviewer.music_reviewer.entities.User;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);

@@ -1,7 +1,6 @@
 package com.musicreviewer.music_reviewer.dtos;
 
 import com.musicreviewer.music_reviewer.entities.Account;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -11,7 +10,7 @@ import lombok.Data;
 @Data
 public class AccountDTO {
     private int id;
-    
+
     @NotBlank
     @Size(min = 2, max = 50)
     @Pattern(regexp = "^[A-Za-zÀ-ÿ'’.\\- ]+$")
@@ -30,7 +29,10 @@ public class AccountDTO {
     @Size(min = 6, max = 64)
     private String password;
     private int reviewsCreated;
-    public AccountDTO() {}
+
+    public AccountDTO() {
+    }
+
     public AccountDTO(Account account) {
         this.id = account.getId();
         this.fullName = account.getUser().getFullName();

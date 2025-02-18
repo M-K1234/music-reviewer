@@ -1,15 +1,14 @@
 package com.musicreviewer.music_reviewer.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
 import com.musicreviewer.music_reviewer.dtos.UserDTO;
 import com.musicreviewer.music_reviewer.entities.User;
 import com.musicreviewer.music_reviewer.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class UserService {
         return users.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
-    
+
     public UserDTO getUserById(int id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(UserDTO::new).orElse(null);

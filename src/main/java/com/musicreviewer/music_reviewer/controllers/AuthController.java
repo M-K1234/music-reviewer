@@ -1,20 +1,19 @@
 package com.musicreviewer.music_reviewer.controllers;
-import java.util.HashMap;
-import java.util.Map;
 
+import com.musicreviewer.music_reviewer.dtos.DuplicateCheckRequest;
+import com.musicreviewer.music_reviewer.dtos.LoginDTO;
+import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
+import com.musicreviewer.music_reviewer.services.AuthService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.musicreviewer.music_reviewer.dtos.DuplicateCheckRequest;
-import com.musicreviewer.music_reviewer.dtos.LoginDTO;
-import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
-import com.musicreviewer.music_reviewer.services.AuthService;
-
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -62,7 +61,7 @@ public class AuthController {
         // If the JwtFilter runs and doesn't throw an exception, the token is valid
         return ResponseEntity.ok(true);
     }
-    
+
     @PostMapping("/check-duplicates")
     public ResponseEntity<?> checkDuplicates(@RequestBody DuplicateCheckRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         String currentEmail = userDetails.getUsername(); // Assuming email is the username
@@ -72,10 +71,10 @@ public class AuthController {
         boolean usernameExists = !authService.isCurrentUserUsername(request.getUsername(), currentEmail) && authService.checkUsernameExists(request.getUsername());
 
         return ResponseEntity.ok(Map.of(
-            "emailExists", emailExists,
-            "usernameExists", usernameExists,
-            "currentEmail", currentEmail, // Add current email
-            "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
+                "emailExists", emailExists,
+                "usernameExists", usernameExists,
+                "currentEmail", currentEmail, // Add current email
+                "currentUsername", authService.getUsernameByEmail(currentEmail) // Add current username
         ));
     }
 }

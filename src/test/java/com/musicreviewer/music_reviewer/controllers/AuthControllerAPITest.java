@@ -7,6 +7,7 @@ import com.musicreviewer.music_reviewer.config.FakerTestConfig;
 import com.musicreviewer.music_reviewer.dtos.RegistrationDTO;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -17,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -120,19 +120,19 @@ class AuthControllerAPITest {
                 .andExpect(jsonPath("$.email", startsWith("must be a well-formed email address")));
     }
 
-     @Disabled("Bug reported, test ignored until fixed")
-     @ParameterizedTest
-     @ValueSource(strings = {
-             "d@k.dk",                                                                           // Local part 1 char
-             "Jfjhkljukkjjhbghfgjdfjnvnhvhvhnvhfjdkdfjhfghghdjcnvhfgjdjxjhvhgh@example.com"      // Local part 64 char
-     })
-     void register_givenEmailHasValidLength_returnOk(String email) throws Exception {
-         var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
+    @Disabled("Bug reported, test ignored until fixed")
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "d@k.dk",                                                                           // Local part 1 char
+            "Jfjhkljukkjjhbghfgjdfjnvnhvhvhnvhfjdkdfjhfghghdjcnvhfgjdjxjhvhgh@example.com"      // Local part 64 char
+    })
+    void register_givenEmailHasValidLength_returnOk(String email) throws Exception {
+        var registrationBody = new RegistrationDTO(faker.name().nameWithMiddle(), email, username(), faker.internet().password());
 
-         mvc.perform(post("/auth/register")
-                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
-                 .andExpect(status().isOk());
-     }
+        mvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(registrationBody)))
+                .andExpect(status().isOk());
+    }
 
     private String username() {
         // Generate slug and ensure that it fits the username field requirements

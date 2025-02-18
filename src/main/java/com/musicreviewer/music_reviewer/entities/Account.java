@@ -1,27 +1,19 @@
 package com.musicreviewer.music_reviewer.entities;
 
-import java.sql.Date;
+import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import lombok.Data;
 
 @Entity
 @Data
 public class Account {
 
-    public Account() {}
+    public Account() {
+    }
 
-    public Account(int id, LocalDateTime creationDate, int reviewsCreated,User user, Login login)
-    {
+    public Account(int id, LocalDateTime creationDate, int reviewsCreated, User user, Login login) {
         this.id = id;
         this.creationDate = creationDate;
         this.reviewsCreated = reviewsCreated;
@@ -45,7 +37,7 @@ public class Account {
     @OneToOne
     @JoinColumn(name = "login_id", referencedColumnName = "id", nullable = false)
     private Login login;
-    
+
 
     @OneToMany
     @JoinColumn(referencedColumnName = "id")

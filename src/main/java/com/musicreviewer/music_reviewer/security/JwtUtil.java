@@ -1,16 +1,14 @@
 package com.musicreviewer.music_reviewer.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.Claims;
-
-import java.util.Date;
-
-import javax.crypto.SecretKey;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
@@ -32,7 +30,7 @@ public class JwtUtil {
 
     public Date getTokenExpiration(String token) {
         return getClaims(token).getExpiration();
-    }    
+    }
 
     public boolean validateToken(String token, UserDetails userDetails) {
         return userDetails.getUsername().equals(extractUsername(token)) && !isTokenExpired(token);
