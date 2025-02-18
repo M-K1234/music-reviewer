@@ -1,5 +1,7 @@
 package com.musicreviewer.music_reviewer.config;
 
+import com.musicreviewer.music_reviewer.security.JwtFilter;
+import com.musicreviewer.music_reviewer.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
-import com.musicreviewer.music_reviewer.security.JwtFilter;
-import com.musicreviewer.music_reviewer.services.CustomUserDetailsService;
 
 import java.util.Arrays;
 
@@ -43,17 +41,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/auth/login", "/auth/register", "/api/review/all", "/api/review/{id}", "/api/news/all", "/api/news/{id}").permitAll()
-                .requestMatchers("/api/review/all", "/api/review/{id}", "/api/charts", "/api/charts/albums").permitAll()
-                .requestMatchers( "api/**").authenticated() // Protect review endpoints
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/auth/login", "/auth/register", "/api/review/all", "/api/review/{id}", "/api/news/all", "/api/news/{id}").permitAll()
+                        .requestMatchers("/api/review/all", "/api/review/{id}", "/api/charts", "/api/charts/albums").permitAll()
+                        .requestMatchers("api/**").authenticated() // Protect review endpoints
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -62,7 +60,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);

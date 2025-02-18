@@ -11,33 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Step 2: Set up JDK
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '21'
+      # Step 2: Set up JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
-    # Step 3: Install dependencies (without running tests)
-    - name: Install dependencies
-      run: mvn install -DskipTests
+      # Step 3: Install dependencies (without running tests)
+      - name: Install dependencies
+        run: mvn install -DskipTests
 
-    # Step 4: Run Checkstyle (continue even if there are violations)
-    - name: Run Checkstyle
-      run: mvn checkstyle:checkstyle
-      continue-on-error: true
+      # Step 4: Run Checkstyle (continue even if there are violations)
+      - name: Run Checkstyle
+        run: mvn checkstyle:checkstyle
+        continue-on-error: true
 
-    # Step 5: Upload Checkstyle report as an artifact
-    - name: Upload Checkstyle report
-      uses: actions/upload-artifact@v4
-      with:
-        name: checkstyle-report
-        path: target/site/checkstyle.html
+      # Step 5: Upload Checkstyle report as an artifact
+      - name: Upload Checkstyle report
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: target/site/checkstyle.html
 
-    # Step 6: Run Tests
-    - name: Run tests
-      run: mvn test
+      # Step 6: Run Tests
+      - name: Run tests
+        run: mvn test

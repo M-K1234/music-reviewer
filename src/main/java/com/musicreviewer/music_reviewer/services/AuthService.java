@@ -1,14 +1,5 @@
 package com.musicreviewer.music_reviewer.services;
 
-import java.util.Date;
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.entities.Login;
 import com.musicreviewer.music_reviewer.entities.User;
@@ -16,8 +7,14 @@ import com.musicreviewer.music_reviewer.repositories.AccountRepository;
 import com.musicreviewer.music_reviewer.repositories.LoginRepository;
 import com.musicreviewer.music_reviewer.repositories.UserRepository;
 import com.musicreviewer.music_reviewer.security.JwtUtil;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +29,11 @@ public class AuthService {
     public Map<String, Object> authenticateAndGenerateTokenResponse(String email, String password) {
         Login login = loginRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-    
+
         if (!passwordEncoder.matches(password, login.getPassword())) {
             throw new IllegalArgumentException("Invalid email or password.");
         }
-    
+
         return generateTokenResponse(email);
     }
 
@@ -51,8 +48,8 @@ public class AuthService {
                 .map(account -> account.getUser().getUsername())
                 .orElse(null);
     }
-    
-    
+
+
     @Transactional
     public void register(String fullName, String email, String username, String password) {
         // Check if username is already taken

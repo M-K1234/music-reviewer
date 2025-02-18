@@ -1,27 +1,21 @@
 package com.musicreviewer.music_reviewer.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
 @Data
 @Entity
 @Table(
-    name = "users",
-    uniqueConstraints = @UniqueConstraint(columnNames = "username")
+        name = "users",
+        uniqueConstraints = @UniqueConstraint(columnNames = "username")
 )
 public class User {
 
-    public User() {}
+    public User() {
+    }
 
-    public User(int id, String fullName,String username)
-    {
+    public User(int id, String fullName, String username) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
@@ -32,7 +26,7 @@ public class User {
     private int id;
 
     private String fullName;
-    
+
     @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;
 }

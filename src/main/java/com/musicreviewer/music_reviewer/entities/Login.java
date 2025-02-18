@@ -1,26 +1,20 @@
 package com.musicreviewer.music_reviewer.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(
-    name = "login",
-    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+        name = "login",
+        uniqueConstraints = @UniqueConstraint(columnNames = "email")
 )
 public class Login {
 
-    public Login() {}
+    public Login() {
+    }
 
-    public Login(int id, String email, String password)
-    {
+    public Login(int id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;

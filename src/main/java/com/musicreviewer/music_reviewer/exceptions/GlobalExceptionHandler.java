@@ -1,13 +1,12 @@
 package com.musicreviewer.music_reviewer.exceptions;
 
-import java.util.Map;
-
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import jakarta.validation.ConstraintViolationException;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

@@ -90,7 +90,7 @@ class DeezerServiceIntegrationTest {
         JsonNode data = root.path("data");
         for (JsonNode album : data) {
             JsonNode artist = album.path("artist");
-            assertTrue(artist.has(fieldName), "Missing '" + fieldName +"' in artist");
+            assertTrue(artist.has(fieldName), "Missing '" + fieldName + "' in artist");
         }
     }
 }

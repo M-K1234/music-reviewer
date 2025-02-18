@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
@@ -44,6 +44,7 @@ class AccountServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> accountService.updateAccount(0, accountDto));
     }
+
     @Test
     void updateAccount_givenCorrectInput_accountIsSaved() {
         var account = AccountBuilder.create().withEmail().withPassword("password").withUsername().withFullName().build();

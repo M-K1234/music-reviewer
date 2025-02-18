@@ -1,22 +1,13 @@
 package com.musicreviewer.music_reviewer.controllers;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.musicreviewer.music_reviewer.dtos.NewsDTO;
 import com.musicreviewer.music_reviewer.entities.News;
 import com.musicreviewer.music_reviewer.services.NewsService;
-
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -59,5 +50,5 @@ public class NewsController {
         newsService.deleteReview(id);
         return ResponseEntity.noContent().build();
     }
-    
+
 }

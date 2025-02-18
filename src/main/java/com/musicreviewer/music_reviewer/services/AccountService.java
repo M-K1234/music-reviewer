@@ -1,12 +1,13 @@
 package com.musicreviewer.music_reviewer.services;
 
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import com.musicreviewer.music_reviewer.dtos.AccountDTO;
 import com.musicreviewer.music_reviewer.entities.Account;
 import com.musicreviewer.music_reviewer.repositories.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -28,10 +29,10 @@ public class AccountService {
 
     public Account updateAccount(int accountId, AccountDTO updatedAccount) {
         Optional<Account> existingAccountOptional = accountRepository.findById(accountId);
-    
+
         if (existingAccountOptional.isPresent()) {
             Account existingAccount = existingAccountOptional.get();
-    
+
             // Update allowed fields
             existingAccount.getLogin().setEmail(updatedAccount.getEmail());
             existingAccount.getLogin().setPassword(
@@ -40,7 +41,7 @@ public class AccountService {
             existingAccount.getUser().setFullName(updatedAccount.getFullName());
             existingAccount.getUser().setUsername(updatedAccount.getUsername());
             existingAccount.setReviewsCreated(updatedAccount.getReviewsCreated());
-    
+
             // Save and return updated account
             return accountRepository.save(existingAccount);
         } else {

@@ -4,10 +4,9 @@ import com.musicreviewer.music_reviewer.config.ModelMapperConfig;
 import com.musicreviewer.music_reviewer.dtos.ReviewDTO;
 import com.musicreviewer.music_reviewer.entities.Review;
 import com.musicreviewer.music_reviewer.repositories.ReviewRepository;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,8 @@ public class ReviewService {
 
     public List<ReviewDTO> mapToDTOList(List<Review> reviews) {
         return reviews.stream()
-                      .map(this::mapToDTO)
-                      .collect(Collectors.toList());
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     public List<ReviewDTO> getAllReviews() {

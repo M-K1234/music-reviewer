@@ -19,7 +19,8 @@ public class AccountBuilder {
     private List<com.musicreviewer.music_reviewer.entities.Review> reviews = new ArrayList<>();
     private final Faker faker = new Faker();
 
-    private AccountBuilder() {}
+    private AccountBuilder() {
+    }
 
     public static AccountBuilder create() {
         return new AccountBuilder();

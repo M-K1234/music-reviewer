@@ -21,7 +21,7 @@ public class UserDTO {
         User user = new User();
         user.setId(this.id); // Correct method name
         user.setFullName(this.fullName); // Correct method name
-        user.setUsername(this.username); 
+        user.setUsername(this.username);
         return user;
     }
 }

@@ -1,4 +1,5 @@
 package com.musicreviewer.music_reviewer.dtos;
+
 import lombok.Data;
 
 @Data
