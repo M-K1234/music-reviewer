@@ -18,19 +18,16 @@ public class ReviewController {
 
     @GetMapping("/all")
     public List<ReviewDTO> getAll() {
-        List<ReviewDTO> reviewDto = reviewService.getAllReviews();
-        return reviewDto;
+        return reviewService.getAllReviews();
     }
 
     @GetMapping("/{id}")
     public ReviewDTO get(@PathVariable int id) {
-        ReviewDTO reviewDto = reviewService.getReviewById(id);
-        return reviewDto;
+        return reviewService.getReviewById(id);
     }
 
     @PostMapping("/create")
     public ReviewDTO add(@RequestBody Review review) {
-        ReviewDTO reviewDto = reviewService.addReview(review);
-        return reviewDto;
+        return reviewService.addReview(review);
     }
 }
