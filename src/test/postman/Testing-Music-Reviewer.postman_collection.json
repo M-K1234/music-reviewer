@@ -222,7 +222,7 @@
 			"response": []
 		},
 		{
-			"name": "Review Single",
+			"name": "Review By Id",
 			"event": [
 				{
 					"listen": "test",
@@ -357,6 +357,296 @@
 					"path": [
 						"review",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Me",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type header is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Id field should exist and be a number\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Email is in a valid format\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.email).to.be.a('string').and.to.match(/^.+@.+\\..+$/);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Reviews created field is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.reviewsCreated).to.be.a('number');",
+							"  pm.expect(responseData.reviewsCreated).to.be.at.least(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/me",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields - id, fullName, username, email, password, and reviewsCreated\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('id');",
+							"    pm.expect(responseData).to.have.property('fullName');",
+							"    pm.expect(responseData).to.have.property('username');",
+							"    pm.expect(responseData).to.have.property('email');",
+							"    pm.expect(responseData).to.have.property('password');",
+							"    pm.expect(responseData).to.have.property('reviewsCreated');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Email is in a valid format\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Password should not be empty\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.password).to.exist.and.to.have.lengthOf.at.least(1, \"Password should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"ReviewsCreated is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.reviewsCreated).to.be.a('number');",
+							"  pm.expect(responseData.reviewsCreated).to.be.at.least(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/email/{{email}}",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"email",
+						"{{email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response Content-Type is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Id field is present and not null\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.id).to.exist.and.to.not.be.null;",
+							"});",
+							"",
+							"",
+							"pm.test(\"FullName should be a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.fullName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"FullName should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Email field is in a valid email format\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/1",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Wrong Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/100",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Update Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type header is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Account object has the correct structure\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.account).to.exist;",
+							"  pm.expect(responseData.account).to.have.property('id').that.is.a('number');",
+							"  pm.expect(responseData.account).to.have.property('fullName').that.is.a('string');",
+							"  pm.expect(responseData.account).to.have.property('username').that.is.a('string');",
+							"  pm.expect(responseData.account).to.have.property('email').that.is.a('string');",
+							"  pm.expect(responseData.account).to.have.property('password').that.is.a('string');",
+							"  pm.expect(responseData.account).to.have.property('reviewsCreated').that.is.a('number');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Email is in a valid format\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.account).to.be.an('object');",
+							"    pm.expect(responseData.account.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Password is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.account.password).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Password should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"fullName\": \"John Doe\",\r\n  \"email\": \"jd@mail.com\",\r\n  \"username\": \"JDoe\",\r\n  \"password\": \"mUCHb3tt3rLONGpassword\",\r\n  \"reviewsCreated\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAccounts}}/update/1",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"update",
+						"1"
 					]
 				}
 			},
