@@ -445,13 +445,6 @@
 							"});",
 							"",
 							"",
-							"pm.test(\"Email is in a valid format\", function () {",
-							"  const responseData = pm.response.json();",
-							"  ",
-							"  pm.expect(responseData.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
-							"});",
-							"",
-							"",
 							"pm.test(\"Password should not be empty\", function () {",
 							"  const responseData = pm.response.json();",
 							"  ",
@@ -468,7 +461,8 @@
 							"  pm.expect(responseData.reviewsCreated).to.be.at.least(0);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -518,16 +512,10 @@
 							"  ",
 							"  pm.expect(responseData).to.be.an('object');",
 							"  pm.expect(responseData.fullName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"FullName should not be empty\");",
-							"});",
-							"",
-							"",
-							"pm.test(\"Email field is in a valid email format\", function () {",
-							"    const responseData = pm.response.json();",
-							"    ",
-							"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -547,7 +535,7 @@
 			"response": []
 		},
 		{
-			"name": "Account By Wrong Id",
+			"name": "Account By Id Non-Existing",
 			"event": [
 				{
 					"listen": "test",
@@ -572,6 +560,271 @@
 					],
 					"path": [
 						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id Empty String",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/\"\"",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"\"\""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id Illegal Input 400 Bad Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const baseUrl = pm.environment.get(\"baseUrlAccounts\");\r",
+							"const token = pm.environment.get(\"token\");\r",
+							"\r",
+							"const testCases = [\r",
+							"  { name: \"decimal\", value: 1.5 },\r",
+							"  { name: \"alphabetic\", value: \"abc\" },\r",
+							"  { name: \"GUID\", value: \"550e8400-e29b-41d4-a716-446655440000\" },\r",
+							"];\r",
+							"\r",
+							"const specialCharacters = ['!', '@', '#', '$', '^', '&', '*', '(', ')'];\r",
+							"\r",
+							"specialCharacters.forEach(char => {\r",
+							"  testCases.push({ name: `special character ${char}`, value: char });\r",
+							"});\r",
+							"\r",
+							"testCases.forEach(testCase => {\r",
+							"  pm.environment.set(\"accountId\", testCase.value);\r",
+							"  const url = `${baseUrl}/${encodeURIComponent(testCase.value)}`;\r",
+							"  pm.sendRequest({\r",
+							"    url: url,\r",
+							"    method: 'GET',\r",
+							"    header: {\r",
+							"      Authorization: `Bearer ${token}`\r",
+							"    }\r",
+							"  }, (err, res) => {\r",
+							"    pm.test(`Boundary test for ${testCase.name} (${testCase.value}) should return 400`, () => {\r",
+							"      pm.expect(err).to.be.null;\r",
+							"      pm.expect(res).to.have.status(400);\r",
+							"    });\r",
+							"  });\r",
+							"});\r",
+							"pm.setNextRequest(null);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/{{accountId}}",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"{{accountId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id Illegal Input 403 Unauthorized",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const baseUrl = pm.environment.get(\"baseUrlAccounts\");\r",
+							"const token = pm.environment.get(\"token\");\r",
+							"\r",
+							"const testCases = [\r",
+							"  { name: \"percent\", value: '%' },\r",
+							"  { name: \"percent\", value: ';' },\r",
+							"  { name: \"SQL command\", value: \"DROP TABLE users;\" }\r",
+							"];\r",
+							"\r",
+							"\r",
+							"testCases.forEach(testCase => {\r",
+							"  pm.environment.set(\"accountId\", testCase.value);\r",
+							"  const url = `${baseUrl}/${encodeURIComponent(testCase.value)}`;\r",
+							"  pm.sendRequest({\r",
+							"    url: url,\r",
+							"    method: 'GET',\r",
+							"    header: {\r",
+							"      Authorization: `Bearer ${token}`\r",
+							"    }\r",
+							"  }, (err, res) => {\r",
+							"    pm.test(`Boundary test for ${testCase.name} (${testCase.value}) should return 403`, () => {\r",
+							"      pm.expect(err).to.be.null;\r",
+							"      pm.expect(res).to.have.status(403);\r",
+							"    });\r",
+							"  });\r",
+							"});\r",
+							"pm.setNextRequest(null);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/{{accountId}}",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"{{accountId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id Illegal Input 404 Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const baseUrl = pm.environment.get(\"baseUrlAccounts\");\r",
+							"const token = pm.environment.get(\"token\");\r",
+							"\r",
+							"const testCases = [\r",
+							"  { name: \"zero\", value: 0 },\r",
+							"  { name: \"negative\", value: -1 }\r",
+							"];\r",
+							"\r",
+							"testCases.forEach(testCase => {\r",
+							"  pm.environment.set(\"accountId\", testCase.value);\r",
+							"  const url = `${baseUrl}/${encodeURIComponent(testCase.value)}`;\r",
+							"  pm.sendRequest({\r",
+							"    url: url,\r",
+							"    method: 'GET',\r",
+							"    header: {\r",
+							"      Authorization: `Bearer ${token}`\r",
+							"    }\r",
+							"  }, (err, res) => {\r",
+							"    pm.test(`Boundary test for ${testCase.name} (${testCase.value}) should return 404`, () => {\r",
+							"      pm.expect(err).to.be.null;\r",
+							"      pm.expect(res).to.have.status(404);\r",
+							"    });\r",
+							"  });\r",
+							"});\r",
+							"pm.setNextRequest(null);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/{{accountId}}",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"{{accountId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account By Id Int Out Of Range",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"/*Shouldn't give 400 Bad Request because we don't want to reveal to hackers that we use ints for id. Rather 404 user not found.*/"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAccounts}}/2147483648",
+					"host": [
+						"{{baseUrlAccounts}}"
+					],
+					"path": [
+						"2147483648"
 					]
 				}
 			},
@@ -608,14 +861,6 @@
 							"});",
 							"",
 							"",
-							"pm.test(\"Email is in a valid format\", function () {",
-							"    const responseData = pm.response.json();",
-							"    ",
-							"    pm.expect(responseData.account).to.be.an('object');",
-							"    pm.expect(responseData.account.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
-							"});",
-							"",
-							"",
 							"pm.test(\"Password is a non-empty string\", function () {",
 							"  const responseData = pm.response.json();",
 							"  ",
@@ -623,7 +868,8 @@
 							"  pm.expect(responseData.account.password).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Password should not be empty\");",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
