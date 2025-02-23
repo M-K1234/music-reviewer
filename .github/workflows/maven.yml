@@ -3,7 +3,7 @@ name: Maven Build and Checkstyle
 on:
   push:
     branches:
-      - main
+      - Ali-branch
   pull_request:
 
 jobs:
