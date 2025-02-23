@@ -47,6 +47,8 @@ class AuthControllerAPITest {
 
     private static final String DATA_PROVIDER_PATH = "com.musicreviewer.music_reviewer.controllers.TestDataProvider";
 
+    // register tests ---------------------------------------------------------- 
+
     @Test
     void register_givenEmptyRequestBody_returnBadRequest() throws Exception {
         mvc.perform(post("/auth/register")
